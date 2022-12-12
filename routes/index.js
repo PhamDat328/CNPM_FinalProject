@@ -6,17 +6,6 @@ const User = require("../models/User");
 
 /* GET home page. */
 
-User.find((err, users) => {
-  if (users.length) return;
-
-  new User({
-    fullName: "dat_pham",
-    password: "abc123",
-    address: "VietNam",
-    email: "dat09@gmail.com",
-  }).save();
-});
-
 router
   .route("/")
   .get(
@@ -57,5 +46,10 @@ router.route("/transfer").get(userController.getTransferForm);
 router.route("/buyphonecard").get(userController.getBuyPhoneCardForm);
 router.route("/transaction").get(userController.getTransactionHistory);
 router.route("/profile").get(userController.getProfile);
-
+router.use((req,res,next) => {
+  next(createError(404));
+})
+router.use((err, req, res, next) => {
+  return res.render("404",{layout:null})
+});
 module.exports = router;

@@ -127,16 +127,7 @@ function showUserOption() {
 // Hide all dropdown when click anywhere on window
 const window_wrapper = document.getElementById("window-wrapper");
 window.onclick = (event) => {
-  if (
-    !event.target.matches(".bell-wrap") &&
-    !event.target.matches(".notification-dropdown") &&
-    !event.target.matches(".notification-box") &&
-    !event.target.matches(".view-all-notification")
-  ) {
-    if (document.querySelector(".show") != null) {
-      notificationMenu.classList.remove("show");
-    }
-  }
+  
   if (
     !event.target.matches(".profile-wrap") &&
     !event.target.matches(".userOption")

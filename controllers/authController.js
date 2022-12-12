@@ -9,7 +9,7 @@ const mailer = require("./sendMail");
 const async = require("hbs/lib/async");
 const uploadDir = __dirname + "/../public/images/uploads";
 fs.existsSync(uploadDir) || fs.mkdirSync(uploadDir);
-
+const Product = require("../models/Products")
 const generateRandomUsername = () => {
   let username = "";
   for (let i = 0; i < 10; i++) {
@@ -401,23 +401,26 @@ const authController = {
             }).select("+admin");
 
 
-            const currentUserAcount = await Account.findOne({
-                username: user.username
-            })
-            let layoutType = "main";
+            
+            
             if (user.admin) {
-                layoutType = "admin";
+                
                 return res.render("index", {
-                    title: "SmartWallet",
-                    layout: layoutType,
+                    title: "Green.vn",
+                    layout: "admin",
                     user: user.toObject(),
                 });
             }
-            return res.render("index", {
-                title: "SmartWallet",
-                layout: layoutType,
+
+            const productList = await Product.find({}).lean()
+            productList.forEach((product) => {
+                product.product_price = toMoney(product.product_price)
+            })
+            return res.render("homepage", {
+                title: "Green.vn",
+                layout: "userLayout",
                 user: user.toObject(),
-                balance: toMoney(currentUserAcount['balance'])
+                productList: productList
             });
         }
     },
