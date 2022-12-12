@@ -1,0 +1,186 @@
+<div class="pending-container" id="pending">
+  <div class="pending-title">
+    <p class="text-title">
+      Danh sách tài khoản chờ được duyệt
+    </p>
+  </div>
+
+  <div class="toolSearchBar">
+    <form id="searchPendingData" style="justify-content: center;">
+      <div class="search-bar-item" style="width: 30%;">
+        <div class="search-item-title">
+          <label for="userName">Tìm kiếm tài khoản</label>
+        </div>
+        <label  for="searchString" class="searchInput" style="display:flex; align-items:center">
+          <i class="bi bi-search" style="margin-right: 4px;"></i>
+          <input type="text" id="searchString" name="searchString" placeholder="Nhập mã người dùng/SĐT/Email" style="width: 100%;">
+        </label>
+      </div>
+      
+      <div class="search-bar-item">
+        <div class="search-item-title">
+          <label>Tìm kiếm theo</label>
+        </div>
+        <div style="width:200px; display:flex; justify-content:space-between;">
+          <div style="display: grid; justify-items: center;">
+            <label for="byUsername">Mã người dùng</label> 
+            <input type="radio" id="byUsername" name="searchType" value="1" checked>
+          </div>
+          <div style="display: grid; justify-items: center;">
+            <label for="byPhone">SĐT</label> 
+            <input type="radio" id="byPhone" name="searchType" value="2">
+          </div>
+          <div style="display: grid; justify-items: center;">
+            <label for="byEmail">Email</label> 
+            <input type="radio" id="byEmail" name="searchType" value="3">
+          </div>   
+        </div>     
+      </div>
+      <div style="align-self:end;">
+        <button class="btn btn-info" type="button" style="margin-right: 8px;" onclick="searchPendingUser();">Search</button>
+        <button class="btn btn-secondary" type="reset">Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="dataTable">
+    <table class="table" style="margin: 0;">
+      <thead>
+        <tr>
+          <th scope="col">Tài khoản</th>
+          <th scope="col">Họ tên</th>
+          <th scope="col">Địa chỉ</th>
+          <th scope="col">SĐT</th>
+          <th scope="col">Email</th>
+          <th scope="col">Tùy chọn</th>
+        </tr>
+      </thead>
+      <tbody id="userData">
+        {{#each pendingUsers}}   
+          <tr>       
+                <td>{{this.username}}</td>
+                <td>{{this.fullName}}</td>
+                <td>{{this.address}}</td>
+                <td>{{this.phoneNumber}}</td>
+                <td>{{this.email}}</td>
+                <td>
+                  <button onclick="window.location.href =`/admin/userDetail/{{this.username}}`" class="btn btn-info">Xem chi tiết</button>
+                  <button data-bs-toggle="modal" data-bs-target="#confirmModal-{{this.username}}" class="btn btn-success">Duyệt</button>
+                  <button data-bs-toggle="modal" data-bs-target="#cancelModal-{{this.username}}" class="btn btn-danger">Hủy</button>
+                  <button data-bs-toggle="modal" data-bs-target="#addInformationModal-{{this.username}}" class="btn btn-warning">Thêm thông tin</button>
+                </td>
+          </tr>
+        
+          {{! Confirm modal }}
+          <div class="modal pending-modal fade" id="confirmModal-{{this.username}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <form action="/admin/activated/{{this.username}}" method="POST">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Modal</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    {{this.username}}
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          {{! Cancel modal }}
+          <div
+            class="modal pending-modal fade"
+            id="cancelModal-{{this.username}}"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <form action="/admin/cancel/{{this.username}}" method="POST">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cancel Modal</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    {{this.username}}
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          {{! Add information modal }}
+          <div
+            class="modal pending-modal fade"
+            id="addInformationModal-{{this.username}}"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <form action="/admin/addInfo/{{this.username}}" method="POST">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Information
+                      Modal</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    {{this.username}}
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        {{/each}}
+
+      </tbody>
+    </table>
+    <div class="tableNotification">
+        {{#if noData.status}}
+            <div style="color:#000; padding-top: 0.5rem;">{{noData.msg}}</div>
+        {{/if}}
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->

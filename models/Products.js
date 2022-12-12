@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const paymentSchema = mongoose.Schema({
+const Product = mongoose.Schema({
   product_id: {
     type: String,
     unique: true,
@@ -27,7 +27,7 @@ const paymentSchema = mongoose.Schema({
     type: [],
     required: true,
   },
-  product_images: {
+  product_detail: {
     type: {
       cpu: String,
       ram: String,
@@ -52,4 +52,4 @@ const paymentSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("payment", paymentSchema);
+module.exports = mongoose.model("Product", Product);

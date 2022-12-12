@@ -1,0 +1,109 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+    <link rel="icon" type="image/x-icon" href="/images/logo.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+
+    <link rel="stylesheet" href="../public/stylesheets/style.css" />
+    <style>
+        * {
+            color: black;
+        }
+        
+        #adminViewAccountDetail {
+            font-family: system-ui;
+        }
+        
+        #adminViewAccountDetail hr {
+            border-top: 2px solid;
+            margin: 0;
+        }
+        
+        #adminViewAccountDetail .information-body {
+            width: 700px;
+        }
+        
+        #adminViewAccountDetail .content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            padding-top: 1rem;
+        }
+        
+        #adminViewAccountDetail .content p {
+            font-size: 17px;
+            line-height: 2.5rem;
+        }
+        
+        #adminViewAccountDetail .content p .info-title {
+            font-weight: 700;
+        }
+        
+        #adminViewAccountDetail .content img {
+            width: 45%;
+            transition: transform 0.5s;
+        }
+        
+        #adminViewAccountDetail .content img:hover {
+            transform: scale(1.5);
+            box-shadow: 0px 0px 20px #000;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="adminViewAccountDetail">
+        <div class="information-body">
+            <div>
+                <div>
+                    <h4>Thông tin người dùng</h4>
+                    <hr>
+                    <div class="content">
+                        <div>
+                            <p><span class="info-title">Tài khoản:</span> 123456789</p>
+                            <p><span class="info-title">Họ tên:</span> Phạm Thành Phong</p>
+                            <p><span class="info-title">Ngày sinh:</span> 07/02/2002</p>
+                            <p><span class="info-title">Trạng thái:</span>Chờ duyệt</p>
+                        </div>
+                        <div>
+                            <p><span class="info-title">Số điện thoại:</span> 0398454023</p>
+                            <p><span class="info-title">Địa chỉ:</span> 123 abc street</p>
+                            <p><span class="info-title">Email:</span> thanhphong07022002@gmail.com</p>
+                            <p><span class="info-title">Ngày tạo:</span>01/01/2022</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding-top: 1.5rem;">
+                    <h4>Thông tin tài khoản</h4>
+                    <hr>
+                    <div class="content">
+                        <img src="../public/images/login_background.jpg" alt="front-ID">
+                        <img src="../public/images/login_background.jpg" alt="back-ID">
+                    </div>
+                </div>
+
+                <div style="padding-top: 1.5rem;">
+                    <h4>Thông tin tài khoản</h4>
+                    <hr>
+                    <div class="content">
+
+                        <button class="btn btn-success">Duyệt</button>
+                        <button class="btn btn-danger">Hủy</button>
+                        <button class="btn btn-warning">Thêm thông tin</button>
+                        <button class="btn btn-warning">Mở khóa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

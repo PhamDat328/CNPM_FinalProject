@@ -17,18 +17,10 @@ let User = mongoose.Schema({
     unique: [true, "This email is already exist"],
   },
   address: String,
-  avatar: {
+  avatarImage: {
     type: String,
     default: "/images/user.png",
-  },
-
-  backIdImage: {
-    type: String,
-    require: [true, "Please enter back id image"],
-  },
-  fontIdImage: {
-    type: String,
-    require: [true, "Please enter font id image"],
+    require: [true, "Please enter avatar image"],
   },
   admin: {
     type: Boolean,

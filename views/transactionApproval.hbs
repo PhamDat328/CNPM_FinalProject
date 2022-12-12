@@ -1,0 +1,165 @@
+<div class="pending-container" id="pending">
+  <div class="pending-title">
+    <p class="text-title">
+      Danh sách yêu cầu rút tiền chờ được duyệt
+    </p>
+  </div>
+
+  <div class="toolSearchBar">
+    <form id="searchPendingData">
+      <div class="search-bar-item">
+        <div class="search-item-title">
+          <label for="byID">Tìm kiếm giao dịch</label>
+        </div>
+        <label  for="byID" class="searchInput" style="display:flex; align-items:center">
+          <i class="bi bi-search" style="margin-right: 4px;"></i>
+          <input type="text" id="byID" name="ID" placeholder="Nhập mã người dùng" style="width: 100%;">
+        </label>
+      </div>
+      <div class="search-bar-item">      
+        <div>
+          <label for="from" class="search-item-title">Từ</label>
+        </div>
+        <input type="date" id="from" name="from" class="searchInput">    
+      </div>
+      <div class="search-bar-item">
+          <div>
+            <label for="to" class="search-item-title">Đến</label>
+          </div>
+          <input type="date" id="to" name="to" class="searchInput">
+      </div>
+      <div class="search-bar-item" style="width: 220px;">
+          <div>
+            <label for="amount" class="search-item-title">Số tiền: <span id="amountDisplay" style="font-size: 14px;">Mọi số tiền</span></label>
+          </div>
+          <input type="range" list="amountmarks" id="amount" name="amount" class="searchInput" min="0" max="100" step="1" value="0" oninput="setAmountValue(this);" style="padding: 0;">
+          <datalist id="amountmarks">
+            <option value="0"></option>
+            <option value="10"></option>
+            <option value="20"></option>
+            <option value="30"></option>
+            <option value="40"></option>
+            <option value="50"></option>
+            <option value="60"></option>
+            <option value="70"></option>
+            <option value="80"></option>
+            <option value="90"></option>
+            <option value="100"></option>
+          </datalist>
+      </div>  
+      <div style="align-self: center;">
+        <button class="btn btn-info" type="button" style="margin-right: 8px;" onclick="searchPendingTransaction();">Search</button>
+        <button class="btn btn-secondary" type="reset" value="0" onclick="setAmountValue(this)">Reset</button>
+      </div>
+    </form>
+  </div>
+  <div class="dataTable">
+      <table class="table" style="margin: 0;">
+      <thead>
+        <tr>
+          <th scope="col">Mã giao dịch</th>
+          <th scope="col">Mã người thực hiện</th>
+          <th scope="col">Ngày giao dịch</th>
+          <th scope="col">Số tiền</th>
+          <th scope="col">Trạng thái</th>
+          <th scope="col">Tùy chọn</th>
+        </tr>
+      </thead>
+      <tbody id="transactionData">
+          {{#each pendingTransaction}}
+          <tr>
+            <td>{{this._id}}</td>
+            <td>{{this.userID}}</td>
+            <td>{{this.transactionDate}}</td>
+            <td>{{this.transactionAmount}}</td>
+            <td>{{this.status}}</td>
+            <td>
+              <button data-bs-toggle="modal" data-bs-target="#confirmModal-{{this.username}}" class="btn btn-success">Duyệt</button>
+              <button data-bs-toggle="modal" data-bs-target="#cancelModal-{{this.username}}" class="btn btn-danger">Hủy</button>
+            </td>
+          </tr>
+          {{! Confirm modal }}
+          <div
+            class="modal pending-modal fade"
+            id="confirmModal-{{this.username}}"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <form action="/admin/activated/{{this.username}}" method="POST">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Modal</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    {{this.username}}
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          {{! Cancel modal }}
+          <div
+            class="modal pending-modal fade"
+            id="cancelModal-{{this.username}}"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <form action="/admin/cancel/{{this.username}}" method="POST">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cancel Modal</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    {{this.username}}
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+        {{/each}}  
+        
+      </tbody>
+    </table>
+    <div class="tableNotification">
+      {{#if noData.status}}
+        <div style="color:#000; padding-top: 0.5rem;">{{noData.msg}}</div>
+      {{/if}}
+    </div>
+  </div>
+  
+</div>
+
+<!-- Modal -->
