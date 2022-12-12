@@ -98,55 +98,18 @@
 
 <section id="products">
   <div class="row-products">
-    <a href="/product-detail.html" class="col-item">
-      <div class="product-item">
-        <img src="./images/products/acer-aspire.png" alt="acer-aspire" />
-        <p class="product-name">
-          Laptop ACER Aspire 7 A715-42G-R05G (Ryzen 5 5500U/RAM 8GB/512GB SSD/
-          Windows 11)
-        </p>
-        <p class="product-price">17.990.000 ₫</p>
-      </div>
-    </a>
-    <a href="/product-detail.html" class="col-item">
-      <div class="product-item">
-        <img src="./images/products/hp.png" alt="acer-aspire" />
-        <p class="product-name">
-          Laptop ACER Aspire 7 A715-42G-R05G (Ryzen 5 5500U/RAM 8GB/512GB SSD/
-          Windows 11)
-        </p>
-        <p class="product-price">17.990.000 ₫</p>
-      </div>
-    </a>
-    <a href="/product-detail.html" class="col-item">
-      <div class="product-item">
-        <img src="./images/products/acer-nitro5.png" alt="acer-aspire" />
-        <p class="product-name">
-          Laptop ACER Aspire 7 A715-42G-R05G (Ryzen 5 5500U/RAM 8GB/512GB SSD/
-          Windows 11)
-        </p>
-        <p class="product-price">17.990.000 ₫</p>
-      </div>
-    </a>
-    <a href="/product-detail.html" class="col-item">
-      <div class="product-item">
-        <img src="./images/products/asus.png" alt="acer-aspire" />
-        <p class="product-name">
-          Laptop ACER Aspire 7 A715-42G-R05G (Ryzen 5 5500U/RAM 8GB/512GB SSD/
-          Windows 11)
-        </p>
-        <p class="product-price">17.990.000 ₫</p>
-      </div>
-    </a>
-    <a href="/product-detail.html" class="col-item">
-      <div class="product-item">
-        <img src="./images/products/msi.png" alt="acer-aspire" />
-        <p class="product-name">
-          Laptop ACER Aspire 7 A715-42G-R05G (Ryzen 5 5500U/RAM 8GB/512GB SSD/
-          Windows 11)
-        </p>
-        <p class="product-price">17.990.000 ₫</p>
-      </div>
-    </a>
+    {{#each productList}}
+      <a href="/product-detail/{{this.product_id}}" class="col-item">
+        <div class="product-item">
+          <img src="{{lookup product_images 0}}" alt="acer-aspire" />
+          <p class="product-name">
+            {{this.product_name}}
+          </p>
+          <p class="product-price">{{this.product_price}}</p>
+        </div>
+      </a>
+    {{/each}}
+    
+    
   </div>
 </section>
