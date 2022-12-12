@@ -4,16 +4,18 @@ const router = express.Router();
 const adminController = require("../controllers/adminController");
 
 router
-  .route("/pending")
-  .get(adminController.getPending)
-  .post(adminController.searchPendingUser);
+  .route("/products")
+  .get(adminController.getProduct)
+  .post(adminController.searchProducts);
 router.route("/activated/:username").post(adminController.activated);
 router.route("/cancel/:username").post(adminController.disabled);
 router.route("/addInfo/:username").post(adminController.addInfo);
 
 router.route("/activated").get(adminController.getActive);
 router.route("/disabled").get(adminController.getDisabled);
-router.route("/userDetail/:username").get(adminController.getUserDetail);
+router
+  .route("/productDetail/:product_id")
+  .get(adminController.getProductDetail);
 
 router
   .route("/transactionApproval")

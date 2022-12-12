@@ -27,29 +27,7 @@ const Product = mongoose.Schema({
     type: [],
     required: true,
   },
-  product_detail: {
-    type: {
-      cpu: String,
-      ram: String,
-      hardDisk: String,
-      VGA: String,
-      monitor: String,
-      port: String,
-      opticalDrive: String,
-      audio: String,
-      keyboard: String,
-      memoryReader: String,
-      LAN: String,
-      WIFI: String,
-      Bluetooth: String,
-      Webcam: String,
-      OS: String,
-      pin: String,
-      weight: String,
-      color: String,
-      size: String,
-    },
-  },
+  product_detail: {},
 });
 
 module.exports = mongoose.model("Product", Product);

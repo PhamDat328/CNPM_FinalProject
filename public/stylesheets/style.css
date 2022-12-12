@@ -2235,13 +2235,68 @@ button {
 
 /*-------------------------------------------------- Admin view account detail ----------------------------------------------------- */
 
-/* #adminViewAccountDetail {
+#adminViewAccountDetail {
     font-family: system-ui;
+    background-color: #fff;
+    width: 1000px;
+
+    color: #000;
+    padding: 2rem;
 }
 
 #adminViewAccountDetail hr {
     border-top: 2px solid;
     margin: 0;
-} */
+}
+
+#adminViewAccountDetail .information-body {
+    width: 1000px;
+}
+
+#adminViewAccountDetail .content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-top: 1rem;
+}
+
+#adminViewAccountDetail .content p {
+    font-size: 17px;
+    line-height: 2.5rem;
+}
+
+#adminViewAccountDetail .content p .info-title {
+    font-weight: 700;
+}
+
+#adminViewAccountDetail .content img {
+    width: 30%;
+    transition: transform 0.5s;
+}
+
+#adminViewAccountDetail .content img:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 4px #000;
+    z-index: 2;
+}
+
+
+.product-detail-info tbody tr {
+    height: 50px;
+    color: #000;
+    background-color: rgb(236, 249, 252) !important;
+}
+
+.product-detail-info tbody td {
+    padding: 0 20px;
+    font-size: 17px;
+    font-family: system-ui;
+}
+.product-detail-info table {
+    width: 100%;
+}
+.product-detail-info tbody .header {
+    font-weight: bold;
+}
 
 /*-------------------------------------------------- Admin view account detail ----------------------------------------------------- */

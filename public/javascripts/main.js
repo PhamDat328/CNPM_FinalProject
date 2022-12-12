@@ -313,13 +313,11 @@ const AvatarImage = document.getElementsByName("avatar")[0];
 const submitBtn = document.querySelector("#register .submit-btn");
 const form = document.querySelector("#register form");
 
-const AvatarError =
-  document.getElementsByClassName("Avatar-error")[0];
+const AvatarError = document.getElementsByClassName("Avatar-error")[0];
 
 function registerSubmit() {
   if (AvatarImage.value === "") {
     AvatarError.innerHTML = "Please enter your avatar.";
-  
   } else {
     form.submit();
   }
@@ -437,9 +435,11 @@ function setAmountValue(amount) {
 function searchPendingUser() {
   let searchForm = new FormData(document.getElementById("searchPendingData"));
   let data = Object.fromEntries(searchForm);
-  let url = "/admin/pending";
+  let url = "/admin/products";
   let firstItem = 0;
-  let tableTbody = document.querySelector("#admin #pending .table #userData");
+  let tableTbody = document.querySelector(
+    "#admin #pending .table #productData"
+  );
   let tableNotification = document.querySelector(
     "#admin #pending .tableNotification"
   );
@@ -469,17 +469,21 @@ function searchPendingUser() {
         if (JSONResult.dataFound && JSONResult.dataFound >= 1) {
           JSONResult.result.forEach((row) => {
             html += `<tr>
-                        <td>${row.username}</td>
-                        <td>${row.fullName}</td>
-                        <td>${row.address}</td>
-                        <td>${row.phoneNumber}</td>
-                        <td>${row.email}</td>
+                        <td>${row.product_id}</td>
+                        <td>${row.product_name}</td>
+                        <td>${row.product_price}</td>
+                        <td>${row.category_id}</td>
                         <td>
-                            <button onclick="window.location.href ='/admin/userDetail/${this.username}'" class="btn btn-info">Xem chi tiết</button>
-                            <button data-bs-toggle="modal" data-bs-target="#confirmModal-${row.username}" class="btn btn-success">Duyệt</button>
-                            <button data-bs-toggle="modal" data-bs-target="#cancelModal-${row.username}" class="btn btn-danger">Hủy</button>
-                            <button data-bs-toggle="modal" data-bs-target="#addInformationModal-${row.username}" class="btn btn-warning">Thêm thông tin</button>
-                        </td>
+              <button
+                onclick="window.location.href ='/admin/userDetail/${row.product_id}'"class="btn btn-info">Chi tiết</button>
+
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#cancelModal-${row.product_id}"
+                class="btn btn-danger"
+              >Xóa</button>
+
+            </td>
                       </tr>`;
           });
           tableNotification.innerHTML = "";

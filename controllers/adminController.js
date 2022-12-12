@@ -3,28 +3,19 @@ const Account = require("../models/Account");
 const jwt = require("jsonwebtoken");
 const Transaction = require("../models/History");
 const { ObjectId } = require("mongodb");
+const Product = require("../models/Products");
 const adminController = {
-  getPending: async (req, res) => {
+  getProduct: async (req, res) => {
     const accessToken = req.cookies.accessToken;
     const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
     const user = await User.findOne({
       username: verifyToken.data.username,
     }).lean();
-    let pendingAccount = await Account.find({ status: "pending" })
-      .lean()
-      .select("username");
-    let pendingUser = [];
 
-    pendingAccount.forEach((userData) => {
-      pendingUser.push(userData.username);
-    });
+    let product = await Product.find({}).lean();
+
     if (req.query.search == "true") {
-      User.find({
-        $and: [
-          { username: { $in: pendingUser } },
-          generateSearchUserFilter(req),
-        ],
-      })
+      Product.find(generateSearchProductFilter(req))
         .lean()
         .exec((err, result) => {
           if (err !== null) {
@@ -42,12 +33,12 @@ const adminController = {
               layout: "admin",
               user,
               noData: noData,
-              pendingUsers: result,
+              products: result,
             });
           }
         });
     } else {
-      User.find({ username: { $in: pendingUser } })
+      Product.find({})
         .lean()
         .exec((err, result) => {
           let noData = {
@@ -56,17 +47,21 @@ const adminController = {
           };
 
           if (result.length >= 1) {
+            result.forEach((product) => {
+              product.product_price = toMoney(product.product_price);
+            });
             noData.status = false;
           }
           return res.render("pending", {
             layout: "admin",
             user,
             noData: noData,
-            pendingUsers: result,
+            products: result,
           });
         });
     }
   },
+
   getActive: async (req, res) => {
     const activeAccounts = await Account.find({ status: "active" });
     let activeUsers = [];
@@ -137,14 +132,22 @@ const adminController = {
     }
   },
 
-  getUserDetail: async (req, res) => {
-    const user = await User.findOne({ username: req.params.username }).lean();
-    const account = await Account.findOne({
-      username: req.params.username,
-    })
-      .lean()
-      .select("balance status history username");
-    console.log(account);
+  getProductDetail: async (req, res) => {
+    try {
+      const product = await Product.findOne({
+        product_id: req.params.product_id,
+      }).lean();
+
+      const keys = Object.keys(product.product_detail);
+
+      keys.forEach((el) => {
+        product.product_detail.keys = el.toUpperCase();
+      });
+
+      res.render("accountDetail", { layout: "admin", product });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   getPendingTransaction: async (req, res) => {
@@ -287,34 +290,31 @@ const adminController = {
     }
   },
 
-  searchPendingUser: async (req, res) => {
+  searchProducts: async (req, res) => {
     if (req.query.search == "true") {
-      let account = await Account.find({ status: "pending" })
-        .lean()
-        .select("username");
-      let pendingAccount = [];
-
-      account.forEach((user) => {
-        pendingAccount.push(user.username);
-      });
-      User.find({
-        $and: [
-          { username: { $in: pendingAccount } },
-          generateSearchUserFilter(req),
-        ],
-      })
+      Product.find(generateSearchProductFilter(req))
         .lean()
         .exec((err, result) => {
           if (err !== null) {
+            console.log(err);
             return res.json({ msg: "Xảy ra lỗi trong quá trình tìm kiếm" });
           } else {
             if (result.length >= 1) {
+              result.forEach((product) => {
+                product.product_price = toMoney(product.product_price);
+              });
+
               return res.json({ dataFound: result.length, result });
             } else {
               return res.json({ msg: "Không có kết quả" });
             }
           }
         });
+      /* let pendingAccount = [];
+
+      account.forEach((user) => {
+        pendingAccount.push(user.username);
+      }); */
     } else {
       return res.json({ msg: "Tìm kiếm không hợp lệ" });
     }
@@ -351,7 +351,7 @@ function generateSearchTransactionFilter(req) {
   } else if (!req.query.from && req.query.to) {
     filter.transactionDate = { $lt: new Date(req.query.to) };
   }
-  if (req.query.amount && req.query.amount >= 5) {
+  if (req.query.amount) {
     let realAmount = req.query.amount * 1000000;
     filter.transactionAmount = { $gte: realAmount };
   }
@@ -359,14 +359,19 @@ function generateSearchTransactionFilter(req) {
   return filter;
 }
 
-function generateSearchUserFilter(req) {
+function generateSearchProductFilter(req) {
   let filter = {};
   if (req.query.searchString && req.query.searchType == 1) {
-    filter.username = req.query.searchString;
+    filter.product_id = req.query.searchString;
   } else if (req.query.searchString && req.query.searchType == 2) {
-    filter.phoneNumber = req.query.searchString;
+    filter.$text = { $search: `${req.query.searchString}` };
   } else if (req.query.searchString && req.query.searchType == 3) {
-    filter.email = req.query.searchString;
+    filter.category_id = req.query.searchString;
   }
+  if (req.query.amount) {
+    let realAmount = req.query.amount * 1000000;
+    filter.product_price = { $gte: realAmount };
+  }
+  console.log(filter);
   return filter;
 }

@@ -1,0 +1,55 @@
+<div class="container" id="adminViewAccountDetail">
+  <div class="information-body">
+    <div>
+      <div>
+        <h4>Thông tin sản phẩm</h4>
+        <hr />
+        <div class="content">
+          <div>
+            <p><span class="info-title">Mã sản phẩm:
+              </span>{{product.product_id}}</p>
+            <p><span class="info-title">Tên sản phẩm:
+              </span>{{product.product_name}}</p>
+            <p><span class="info-title">Giá:
+              </span>{{product.product_price}}</p>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div style="padding-top: 1.5rem;">
+        <h4>Hình ảnh</h4>
+        <hr />
+        <div class="content">
+
+          {{#each product.product_images as |item|}}
+            <img src="{{item}}" />
+
+          {{/each}}
+        </div>
+      </div>
+
+      <div style="padding-top: 1.5rem;">
+        <h4>Cấu hình chi tiết</h4>
+        <hr />
+        <div class="product-detail-info">
+          <table cellpadding="3" cellspacing="0">
+            <tbody>
+              {{#each product.product_detail}}
+                {{#if this}}
+                  <tr>
+                    <td class="header">{{#uppercase @key}}{{/uppercase}}</td>
+                    <td>{{this}}</td>
+                  </tr>
+                {{/if}}
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

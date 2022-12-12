@@ -11,33 +11,87 @@
         <div class="search-item-title">
           <label for="userName">Tìm kiếm tài khoản</label>
         </div>
-        <label  for="searchString" class="searchInput" style="display:flex; align-items:center">
+        <label
+          for="searchString"
+          class="searchInput"
+          style="display:flex; align-items:center"
+        >
           <i class="bi bi-search" style="margin-right: 4px;"></i>
-          <input type="text" id="searchString" name="searchString" placeholder="Nhập mã người dùng/SĐT/Email" style="width: 100%;">
+          <input
+            type="text"
+            id="searchString"
+            name="searchString"
+            placeholder="Nhập mã người dùng/SĐT/Email"
+            style="width: 100%;"
+          />
         </label>
       </div>
-      
+
       <div class="search-bar-item">
         <div class="search-item-title">
           <label>Tìm kiếm theo</label>
         </div>
         <div style="width:200px; display:flex; justify-content:space-between;">
           <div style="display: grid; justify-items: center;">
-            <label for="byUsername">Mã người dùng</label> 
-            <input type="radio" id="byUsername" name="searchType" value="1" checked>
+            <label for="productId">Mã sản phẩm</label>
+            <input
+              type="radio"
+              id="productId"
+              name="searchType"
+              value="1"
+              checked
+            />
           </div>
           <div style="display: grid; justify-items: center;">
-            <label for="byPhone">SĐT</label> 
-            <input type="radio" id="byPhone" name="searchType" value="2">
+            <label for="productName">Tên</label>
+            <input type="radio" id="productName" name="searchType" value="2" />
           </div>
           <div style="display: grid; justify-items: center;">
-            <label for="byEmail">Email</label> 
-            <input type="radio" id="byEmail" name="searchType" value="3">
-          </div>   
-        </div>     
+            <label for="categoryId">Danh mục</label>
+            <input type="radio" id="categoryId" name="searchType" value="3" />
+          </div>
+        </div>
+
+      </div>
+      <div class="search-bar-item" style="width: 220px;">
+        <div>
+          <label for="amount" class="search-item-title">Số tiền:
+            <span id="amountDisplay" style="font-size: 14px;">Mọi số tiền</span></label>
+        </div>
+        <input
+          type="range"
+          list="amountmarks"
+          id="amount"
+          name="amount"
+          class="searchInput"
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          oninput="setAmountValue(this);"
+          style="padding: 0;"
+        />
+        <datalist id="amountmarks">
+          <option value="0"></option>
+          <option value="10"></option>
+          <option value="20"></option>
+          <option value="30"></option>
+          <option value="40"></option>
+          <option value="50"></option>
+          <option value="60"></option>
+          <option value="70"></option>
+          <option value="80"></option>
+          <option value="90"></option>
+          <option value="100"></option>
+        </datalist>
       </div>
       <div style="align-self:end;">
-        <button class="btn btn-info" type="button" style="margin-right: 8px;" onclick="searchPendingUser();">Search</button>
+        <button
+          class="btn btn-info"
+          type="button"
+          style="margin-right: 8px;"
+          onclick="searchPendingUser();"
+        >Search</button>
         <button class="btn btn-secondary" type="reset">Reset</button>
       </div>
     </form>
@@ -47,32 +101,44 @@
     <table class="table" style="margin: 0;">
       <thead>
         <tr>
-          <th scope="col">Tài khoản</th>
-          <th scope="col">Họ tên</th>
-          <th scope="col">Địa chỉ</th>
-          <th scope="col">SĐT</th>
-          <th scope="col">Email</th>
+          <th scope="col">Mã sản phẩm</th>
+          <th scope="col">Tên</th>
+          <th scope="col">Giá</th>
+          <th scope="col">Danh mục</th>
           <th scope="col">Tùy chọn</th>
         </tr>
       </thead>
-      <tbody id="userData">
-        {{#each pendingUsers}}   
-          <tr>       
-                <td>{{this.username}}</td>
-                <td>{{this.fullName}}</td>
-                <td>{{this.address}}</td>
-                <td>{{this.phoneNumber}}</td>
-                <td>{{this.email}}</td>
-                <td>
-                  <button onclick="window.location.href =`/admin/userDetail/{{this.username}}`" class="btn btn-info">Xem chi tiết</button>
-                  <button data-bs-toggle="modal" data-bs-target="#confirmModal-{{this.username}}" class="btn btn-success">Duyệt</button>
-                  <button data-bs-toggle="modal" data-bs-target="#cancelModal-{{this.username}}" class="btn btn-danger">Hủy</button>
-                  <button data-bs-toggle="modal" data-bs-target="#addInformationModal-{{this.username}}" class="btn btn-warning">Thêm thông tin</button>
-                </td>
+      <tbody id="productData">
+        {{#each products}}
+          <tr>
+            <td>{{this.product_id}}</td>
+            <td>{{this.product_name}}</td>
+            <td>{{this.product_price}}</td>
+            <td>{{this.category_id}}</td>
+
+            <td>
+              <button
+                onclick="window.location.href =`/admin/productDetail/{{this.product_id}}`"
+                class="btn btn-info"
+              >Chi tiết</button>
+
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#cancelModal-{{this.product_id}}"
+                class="btn btn-danger"
+              >Xóa</button>
+
+            </td>
           </tr>
-        
+
           {{! Confirm modal }}
-          <div class="modal pending-modal fade" id="confirmModal-{{this.username}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div
+            class="modal pending-modal fade"
+            id="confirmModal-{{this.username}}"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
             <form action="/admin/activated/{{this.username}}" method="POST">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -147,8 +213,8 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Information
-                      Modal</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add
+                      Information Modal</h5>
                     <button
                       type="button"
                       class="btn-close"
@@ -176,9 +242,9 @@
       </tbody>
     </table>
     <div class="tableNotification">
-        {{#if noData.status}}
-            <div style="color:#000; padding-top: 0.5rem;">{{noData.msg}}</div>
-        {{/if}}
+      {{#if noData.status}}
+        <div style="color:#000; padding-top: 0.5rem;">{{noData.msg}}</div>
+      {{/if}}
     </div>
   </div>
 </div>
