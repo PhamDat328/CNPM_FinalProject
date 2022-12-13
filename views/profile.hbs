@@ -1,4 +1,4 @@
-<section id="user-profile" style="margin-top: 200px; margin-bottom: 50px;">
+<section id="user-profile" style="margin-top: 200px; margin-bottom: 800px">
   <form
     method="POST"
     action="/update-info"
@@ -63,5 +63,67 @@
 
       </div>
     </div>
+
   </form>
+
+  <div
+    class="orders"
+    style="height: 800px; width: 95%; margin: 0 auto; color: #000"
+  >
+    <h2 class="mb-4">Lịch sử mua sắm</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Tổng bill</th>
+          <th scope="col">Phương thức</th>
+          <th scope="col">Các sản phẩm</th>
+          <th scope="col">Địa chỉ nhận hàng</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each orders}}
+          <tr>
+            <th scope="row">{{order_id}}</th>
+            <td>{{orderDate}}</td>
+            <td>{{totalsPrice}}</td>
+            <td>{{paymentMethods}}</td>
+            <td>
+              <div class="order-items" style="width: 450px;">
+                {{#each items}}
+
+                  <div class="order-item">
+
+                    <img src="{{lookup product_images 0}}" alt="" />
+
+                    <div class="order-item-info">
+                      <div class="order-item-name">
+                        <p>{{product_name}}
+                        </p>
+                      </div>
+                      <div class="order-item-quantity">Số lượng
+                        <b
+                          style="color: green; font-size:16px"
+                        >{{this.quantity}}</b></div>
+                      <div class="order-item-price"><b
+                        >{{this.totalPrice}}</b></div>
+                    </div>
+                  </div>
+                {{/each}}
+
+              </div>
+            </td>
+            <td>
+
+              Address:
+              {{shippingAddress.address}}
+
+            </td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+  </div>
 </section>

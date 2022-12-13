@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 let User = mongoose.Schema({
   username: {
     type: String,
-    unique: [true, "This user name is already exist"],
     require: true,
   },
   fullName: {

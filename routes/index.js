@@ -48,6 +48,8 @@ router.route("/transaction").get(userController.getTransactionHistory);
 router.route("/profile").get(userController.getProfile);
 router.route("/cart").get(userController.getCart);
 router.route("/checkout").get(userController.getCheckOut);
+router.route("/checkout").post(userController.postCheckOut);
+router.route("/successfulOrder").get(userController.getSuccessfulOrder);
 router
   .route("/product-detail/:product_id")
   .get(userController.getProductDetail);

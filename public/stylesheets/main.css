@@ -180,7 +180,8 @@ header {
     margin: 0 auto;
     width: 1280px;
     display: flex;
-    height: 400px;
+    flex-wrap: wrap;
+    height: fit-content;
     
 }
 
@@ -630,14 +631,14 @@ hr {
 
 }
 
-.wrap-order-info .order-items {
+.order-items {
     border: #046425 1px solid;
     padding: 1rem 1.5rem;
     border-radius: 6px;
    
 }
 
-.wrap-order-info .order-item {
+.order-item {
     margin-bottom: 8px;
     display: flex;
 }
@@ -646,7 +647,7 @@ hr {
     background-color: #046425;
 } */
 
-.wrap-order-info .order-item img {
+.order-item img {
     width: 80px;
     height: 80px; 
     margin-right: 4px;

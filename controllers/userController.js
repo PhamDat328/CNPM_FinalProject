@@ -1,3 +1,4 @@
+const Order = require("../models/Orders");
 const User = require("../models/User");
 const formidable = require("formidable");
 const async = require("hbs/lib/async");
@@ -15,6 +16,14 @@ function generateLocalDate() {
   let currentDate = new Date(Date.now() - d.getTimezoneOffset() * 60 * 1000);
   return currentDate;
 }
+
+const generateRanOrderId = () => {
+  let username = "o";
+  for (let i = 0; i < 9; i++) {
+    username += Math.floor(Math.random() * 10);
+  }
+  return username;
+};
 
 function toMoney(moneyamount, style = "VND") {
   return (
@@ -385,7 +394,9 @@ module.exports = {
       const user = await User.findOne({ username: req.session.username })
         .lean()
         .select("dateOfBirth phoneNumber fullName address email avatar");
-
+      const orders = await Order.find({
+        customer_id: { $in: req.session.username },
+      }).lean();
       user.dateOfBirth = user.dateOfBirth.toLocaleString("en-GB").split(",")[0];
 
       const account = await Account.findOne({
@@ -401,7 +412,12 @@ module.exports = {
       } else if (account.status === "addition") {
         account.status = "Chờ bổ sung thêm thông tin";
       }
-      return res.render("profile", { layout: "userLayout", user, account });
+      return res.render("profile", {
+        layout: "userLayout",
+        user,
+        account,
+        orders,
+      });
     } else {
       return res.redirect("/login");
     }
@@ -530,8 +546,9 @@ module.exports = {
     });
     let totalBill = 0;
     for (let i = 0; i < products.length; i++) {
-      totalBill += products[i].product_price;
       products[i].quantity = counts[products[i].product_id];
+      totalBill +=
+        Number(products[i].product_price) * Number(products[i].quantity);
       products[i].totalPrice =
         Number(counts[products[i].product_id]) *
         Number(products[i].product_price);
@@ -605,5 +622,62 @@ module.exports = {
     await user.updateOne({ $push: { cart: req.params.product_id } });
 
     res.redirect("/cart");
+  },
+
+  getSuccessfulOrder: (req, res) => {
+    res.render("successfulOrder", { layout: "blankLayout" });
+  },
+
+  postCheckOut: async (req, res) => {
+    const user = await User.findOne({ username: req.session.username });
+
+    const products = await Product.find({
+      product_id: { $in: user.cart },
+    }).lean();
+
+    const counts = {};
+    user.cart.forEach(function (x) {
+      counts[x] = (counts[x] || 0) + 1;
+    });
+    let totalBill = 0;
+    for (let i = 0; i < products.length; i++) {
+      totalBill += products[i].product_price;
+      products[i].quantity = counts[products[i].product_id];
+      products[i].totalPrice =
+        Number(counts[products[i].product_id]) *
+        Number(products[i].product_price);
+      products[i].totalPrice = toMoney(products[i].totalPrice);
+      products[i].product_price = toMoney(products[i].product_price);
+    }
+    totalBill = toMoney(totalBill);
+    const orderDate = generateLocalDate().toLocaleString("en-GB").split(",")[0];
+    const order_id = generateRanOrderId();
+
+    const customer_id = req.session.username;
+    const items = products;
+    const totalsPrice = totalBill;
+    const paymentMethods = req.body.paymentMethod;
+    const shippingAddress = {
+      customer_name: req.body.name,
+      customer_email: req.body.email,
+      customer_phone: req.body.phone,
+      address: `${req.body.cuthe}, ${req.body.xa},${req.body.huyen}, ${req.body.tinh}`,
+    };
+
+    console.log(shippingAddress);
+
+    const order = await Order.create({
+      orderDate,
+      order_id,
+      customer_id,
+      items,
+      totalsPrice,
+      paymentMethods,
+      shippingAddress,
+    });
+    await user.updateOne({ $set: { cart: [] } });
+    // await user.update({}, { $set: { cart: [] } }, { multi: true });
+
+    res.redirect("/successfulOrder");
   },
 };

@@ -1,19 +1,19 @@
 <div class="pay-form-container">
     <div class="wrap-pay-form pb-5 row">
-        <form id="pay-form" class="row g-3 col-8">
+        <form method="POST" action="/checkout" id="pay-form" class="row g-3 col-8">
             <div class="info-receiver row mb-3">
                 <h3>Thông tin người nhận hàng</h2>
                     <div class="col-12 mb-3">
                         <label for="name" class="form-label">Họ tên</label>
-                        <input type="text" class="form-control" id="name" placeholder="Vui lòng nhập tên người dùng">
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Vui lòng nhập tên người dùng">
                     </div>
                     <div class="col-6">
                         <label for="phone" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" id="phone" placeholder="Nhập số điện thoại">
+                        <input type="text" name="phone" class="form-control" id="phone" placeholder="Nhập số điện thoại">
                     </div>
                     <div class="col-md-6">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Nhập email của bạn">
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Nhập email của bạn">
                     </div>
             </div>
 
@@ -22,19 +22,19 @@
                 <h3>Địa chỉ nhận hàng</h2>
                     <div class="col-6 mb-3">
                         <label for="tinh" class="form-label">Tỉnh/Thành phố</label>
-                        <input type="text" class="form-control" id="tinh" placeholder="Vui lòng nhập tên người dùng">
+                        <input type="text" name="tinh" class="form-control" id="tinh" >
                     </div>
                     <div class="col-6 mb-3">
                         <label for="quan" class="form-label">Quận/Huyện</label>
-                        <input type="text" class="form-control" id="quan" placeholder="Vui lòng nhập tên người dùng">
+                        <input type="text" name="huyen" class="form-control" id="quan" >
                     </div>
                     <div class="col-6">
                         <label for="xa" class="form-label">Phường/Xã</label>
-                        <input type="text" class="form-control" id="xa" placeholder="Nhập số điện thoại">
+                        <input type="text" name="xa" class="form-control" id="xa">
                     </div>
                     <div class="col-md-6">
                         <label for="cuthe" class="form-label">Địa chỉ cụ thể</label>
-                        <input type="text" class="form-control" id="cuthe" placeholder="Nhập email của bạn">
+                        <input type="text" name="cuthe" class="form-control" id="cuthe">
                     </div>
             </div>
 
@@ -49,28 +49,28 @@
                             <p>Thanh toán bằng ví điện tử</p>
                             <span>Momo, ZaloPay, ApplePay, VNPay</span>
                         </label>
-                        <input class="active-method" type="radio" name="paymentMethod" id="e-wallet" value="e-wallet">
+                        <input class="active-method" type="radio" name="paymentMethod" id="e-wallet" value="Ví điện tử">
 
                     </div>
                     <div class="method">
                         <label for="payWhenReceive">
                             <p>Thanh toán khi nhận hàng</p>
                         </label>
-                        <input type="radio" name="paymentMethod" id="payWhenReceive">
+                        <input type="radio" name="paymentMethod" id="payWhenReceive" value="Tiền mặt">
                     </div>
                     <div class="method">
                         <label for="bank">
                             <p>Thanh toán bằng thẻ ngân hàng</p>
                             <span>Vietcombank, Agribank, ACB, NamAbank,...</span>
                         </label>
-                        <input type="radio" name="paymentMethod" id="bank">
+                        <input type="radio" name="paymentMethod" id="bank" value="Bank">
 
                     </div>
                     <div class="method">
                         <label for="qrCode">
                             <p>Thanh toán bằng QR Code</p>
                         </label>
-                        <input type="radio" name="paymentMethod" id="qrCode">
+                        <input type="radio" name="paymentMethod" id="qrCode" value="QR Code">
 
                     </div>
 
@@ -113,18 +113,7 @@
                         </div>
                     </div>
                     {{/each}}
-                    {{!-- <div class="order-item">
-
-                        <img src="./images/products/acer-nitro5.png" alt="">
-
-                        <div class="order-item-info">
-                            <div class="order-item-name">
-                                <p>Laptop ACER Nitro 5 AN515-58-52SP (i5-12500H/RAM 8GB/512GB SSD/ Windows 11)</p>
-                            </div>
-                            <div class="order-item-quantity">Số lượng 1</div>
-                            <div class="order-item-price"><b>24.990.000₫</b></div>
-                        </div>
-                    </div> --}}
+                   
                 </div>
 
                 <div class="order-total-price">
