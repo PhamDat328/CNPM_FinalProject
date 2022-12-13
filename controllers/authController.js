@@ -185,12 +185,165 @@ const authController = {
           dir + "/avatar." + avatarImage.originalFilename.split(".")[1]
         );
 
+<<<<<<< HEAD
         let errorMess = {
           isError: false,
           errorE: false,
           messageE: "",
           errorPN: false,
           messagePN: "",
+=======
+            return res.redirect("/");
+        }
+    },
+
+    getChangePasswordPage: (req, res) => {
+        return res.render("changePassword", {
+            layout: "blankLayout"
+        });
+    },
+
+    postChangePasswordPage: async(req, res, next) => {
+        try {
+            const salt = await bcrypt.genSalt(10);
+            const hashed = await bcrypt.hash(req.body.newPassword, salt);
+            const account = await Account.findOne({
+                username: req.session.username,
+            });
+            if (req.body.newPassword === req.body.confirmPassword) {
+                await account.updateOne({
+                    lastLogin: Date.now(),
+                    hashPassword: hashed,
+                });
+                req.session.isLogin = true;
+                req.session.username = account.username;
+                return res.redirect("/");
+            }
+            return res.render("changePassword", {
+                layout: "blankLayout",
+                message: "Confirm password is incorrect",
+            });
+        } catch (error) {
+            console.log(error)
+            return res.json(error);
+        }
+    },
+
+    postLoginPage: async(req, res) => {
+        try {
+
+            let account = await Account.findOne({username: req.body.username}).select("+admin");
+            let message = {
+                status: false,
+                message: ""
+            }
+
+            let d = new Date();
+            let currentDate = new Date(Date.now() - d.getTimezoneOffset() * 60 * 1000)
+
+            if (!account) {
+                message.status = true;
+                message.message = "Tài khoản không tồn tại"
+                return res.status(400).render("login", {
+                    layout: "blankLayout",
+                    message: message,
+                });
+            }
+
+            const validPassword = await bcrypt.compare(req.body.password, account.hashPassword);
+            
+            if (account.isLocked === true) {
+
+                if (account.lockedTimes <= 1 && (account.lockTo.getFullYear() - currentDate.getFullYear()) < 10) 
+                {
+
+                    if (account.lockTo <= currentDate) {
+                        await account.updateOne({ lockTo: null, isLocked: false, abnormalLogin: 0 })
+                        account = await Account.findOne({username: req.body.username}).select("+admin");
+                        return makeLogin(account,validPassword,currentDate,message,req,res)
+                    }
+
+                    return res.render("login", {
+                        layout: "blankLayout",
+                        message: { status: true, message: "Tài khoản hiện đang bị tạm khóa, vui lòng thử lại trong vòng 1 phút" }
+                    });
+                } 
+                else {
+                    return res.render("login", {
+                        layout: "blankLayout",
+                        message: { status: true, message: "Tài khoản đã bị khóa do nhập sai mật khẩu nhiểu lần, vui lòng liên hệ quản trị viên để được hỗ trợ" }
+                    });
+                }
+
+            }
+            else{
+
+                return makeLogin(account,validPassword,currentDate,message,req,res)
+            } 
+        } catch (error) {
+            console.log(error.message );
+            res.render("login", {
+                layout: "blankLayout",
+                message: {
+                    status: true,
+                    message: error
+                }
+            });
+        }
+    },
+
+    getHomePage: async(req, res) => {
+        if (!req.session.isLogin) {
+            return res.redirect("/login");
+        } else {
+            const accessToken = req.cookies.accessToken;
+            const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+            const user = await User.findOne({
+                username: verifyToken.data.username,
+            }).select("+admin");
+
+
+            
+            
+            if (user.admin) {
+                
+                return res.render("adminHomepage", {
+                    title: "Green.vn",
+                    layout: "admin",
+                    user: user.toObject(),
+                });
+            }
+
+            const productList = await Product.find({}).lean()
+            productList.forEach((product) => {
+                product.product_price = toMoney(product.product_price)
+            })
+            return res.render("homepage", {
+                title: "Green.vn",
+                layout: "userLayout",
+                user: user.toObject(),
+                productList: productList
+            });
+        }
+    },
+
+    logout: (req, res) => {
+        req.session.isLogin = false;
+        res.clearCookie("accessToken");
+        res.redirect("/login");
+    },
+
+    restrictTo: (...roles) => {
+        return (req, res, next) => {
+            // roles ['admin', 'lead-guide']. roles='user'
+            if (!roles.includes(req.user.role)) {
+                return next(
+                    new AppError("You do not have permission to perform this action", 403)
+                );
+            }
+
+            next();
+>>>>>>> 0829af6ce77ec2f60ed60e0161c0b14a3cda460b
         };
 
         User.findOne(

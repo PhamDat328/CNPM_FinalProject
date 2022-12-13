@@ -132,7 +132,7 @@ p {
 #nav-bar-header {
     width: 100%;
     height: 70px;
-    background-color: #50a3fa;
+    background-color: #000000;
     position: fixed;
     top: 0;
     z-index: 20;
@@ -180,6 +180,7 @@ p {
     align-items: center;
     cursor: pointer;
     position: relative;
+    
 }
 
 .userOption {
@@ -187,7 +188,6 @@ p {
     width: 165px;
     position: absolute;
     top: 70px;
-    transform: translateX(80%);
     padding: 15px 0px;
 }
 
@@ -220,7 +220,7 @@ p {
 }
 
 .header-profile-fs-1 {
-    color: black;
+    color: #fff;
     font-size: 16px;
     font-weight: 400;
 }
@@ -348,7 +348,7 @@ p {
 .side-nav-bar {
     height: calc(100% - 4rem);
     width: 265px;
-    background-color: #143b64;
+    background-color: #000000;
     position: fixed;
     z-index: 5;
     top: 70px;
@@ -1030,7 +1030,7 @@ button {
 }
 
 .cont {
-    background-image: url("/images/login_background.jpg");
+    background-image: url("https://c8n8e4j6.rocketcdn.me/wp-content/uploads/2021/01/gearvn-khai-truong-showroom-hi-end-pc-va-gaming-gear-ngay-tai-trung-tam-thanh-pho-ho-chi-minh-8.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1075,7 +1075,11 @@ button {
 }
 
 .login__form___logo::after {
+<<<<<<< HEAD
     content: "GREEN.VN";
+=======
+    content: "GreenVN";
+>>>>>>> 0829af6ce77ec2f60ed60e0161c0b14a3cda460b
     font-size: 3rem;
     font-weight: 600;
     font-family: "Coiny", cursive;
@@ -1154,7 +1158,7 @@ button {
     height: 4rem;
     margin: 4.5rem 0 3.5rem;
     color: rgba(255, 255, 255, 0.8);
-    background: #1eaae7;
+    background: #3fd921;
     font-size: 1.5rem;
     border-radius: 3rem;
     cursor: pointer;
@@ -1301,7 +1305,7 @@ button {
 }
 
 #admin #pending thead {
-    background-color: #50a3fa;
+    background-color: #20c200;
     color: #fff;
 }
 
@@ -1437,7 +1441,7 @@ button {
     overflow-x: hidden;
     max-width: 100%;
     height: 100%;
-    background-image: url(/images/login_background.jpg);
+    background-image: url(https://c8n8e4j6.rocketcdn.me/wp-content/uploads/2021/01/gearvn-khai-truong-showroom-hi-end-pc-va-gaming-gear-ngay-tai-trung-tam-thanh-pho-ho-chi-minh-8.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1695,7 +1699,7 @@ button {
 }
 
 #form-2 .ID-input::-webkit-file-upload-button {
-    background: #1eaae7;
+    background: #3fd921;
     cursor: pointer;
     font-weight: 600;
 }
