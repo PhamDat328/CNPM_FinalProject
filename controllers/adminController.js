@@ -4,7 +4,20 @@ const jwt = require("jsonwebtoken");
 const Transaction = require("../models/History");
 const { ObjectId } = require("mongodb");
 const Product = require("../models/Products");
+const async = require("hbs/lib/async");
 const adminController = {
+
+
+  getHomepage: async (req,res) => {
+    const accessToken = req.cookies.accessToken;
+    const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+    const user = await User.findOne({
+      username: verifyToken.data.username,
+    }).lean();
+
+    return res.render("adminHomepage", {layout:"admin",user})
+  },
+
   getProduct: async (req, res) => {
     const accessToken = req.cookies.accessToken;
     const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);

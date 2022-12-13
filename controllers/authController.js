@@ -405,7 +405,7 @@ const authController = {
             
             if (user.admin) {
                 
-                return res.render("index", {
+                return res.render("adminHomepage", {
                     title: "Green.vn",
                     layout: "admin",
                     user: user.toObject(),

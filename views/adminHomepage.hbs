@@ -1,0 +1,130 @@
+<div class="container">
+    <style>
+        .dashboard-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard {
+            width: 35%;
+            height: 200px;
+            margin-top: 1rem;
+            display: grid;
+        }
+
+        .dashboard-display img {
+            width: 120px;
+        }
+
+        .dashboard .dashboard-display {
+            width: 85%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1.5rem 0rem 1.5rem;
+        }
+
+        .productTotal {
+            background-color: #4dc0e9;
+        }
+
+        .accountTotal {
+            background-color: #e99d40;
+        }
+
+        .ordersTotal {
+            background-color: #47a05e;
+        }
+
+        .dashboard-content {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .dashboard-content .dasboard-value {
+            font-size: 3rem;
+            font-weight: 900;
+            font-family: monospace;
+        }
+
+        .dashboard-link {
+            display: flex;
+            width: 100%;
+            text-decoration: unset;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            color:white;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .dashboard-link::after {
+            content: '➜';
+            margin-left: 8px;
+            color:#aba6a6;
+            background-color: white;
+            border-radius: 100%;
+            width: 22px;
+            height: 22px;
+            text-align: center;
+        }
+
+        .productTotal .dashboard-link {
+            background-color: #45add2;
+        }
+
+        .accountTotal .dashboard-link {
+            background-color: #d18d39;
+        }
+
+        .ordersTotal .dashboard-link {
+            background-color: #3f8f55;
+        }
+        @media screen and (max-width: 860px) {
+            .dashboard{
+                width: 65%;
+            }
+        }
+    </style>
+
+    <div class="dashboard-group">
+        <h3 style="font-family: system-ui;color:black">Thống kê số liệu</h3>
+        <div class="dashboard productTotal">
+            <div class="dashboard-display">
+                <div class="dashboard-content">
+                    <span class="dasboard-value">5</span>
+                    <p>Sản phẩm</p>
+                </div>
+                <img src="/images/productManagement.png" alt="">
+            </div>
+            <a class="dashboard-link">Xem thêm</a>
+        </div>
+        <div class="dashboard accountTotal">
+            <div class="dashboard-display">
+                <div class="dashboard-content">
+                    <span class="dasboard-value">25</span>
+                    <p>Thành viên</p>
+                </div>
+                <img src="/images/orders.png" alt="">
+            </div>
+
+            <a class="dashboard-link">Xem thêm</a>
+        </div>
+        <div class="dashboard ordersTotal">
+            <div class="dashboard-display">
+                <div class="dashboard-content">
+                    <span class="dasboard-value">12</span>
+                    <p>Đơn hàng</p>
+                </div>
+                <img src="/images/customer.png" alt="">
+            </div>
+
+            <a class="dashboard-link">Xem thêm</a>
+        </div>
+    </div>
+
+</div>

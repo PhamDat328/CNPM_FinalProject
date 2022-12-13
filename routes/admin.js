@@ -3,6 +3,9 @@ const router = express.Router();
 
 const adminController = require("../controllers/adminController");
 
+
+router.route("/").get(adminController.getHomepage)
+
 router
   .route("/products")
   .get(adminController.getProduct)
