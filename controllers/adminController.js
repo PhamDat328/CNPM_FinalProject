@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const Transaction = require("../models/History");
 const { ObjectId } = require("mongodb");
 const Product = require("../models/Products");
+const Order = require("../models/Orders")
 const async = require("hbs/lib/async");
 const adminController = {
 
@@ -14,8 +15,10 @@ const adminController = {
     const user = await User.findOne({
       username: verifyToken.data.username,
     }).lean();
-
-    return res.render("adminHomepage", {layout:"admin",user})
+    let userLength = (await User.find({})).length
+    let productLength = (await Product.find({})).length
+    let orderLength = (await Order.find({})).length 
+    return res.render("adminHomepage", {layout:"admin",user ,userLength,productLength,orderLength})
   },
 
   getProduct: async (req, res) => {
@@ -75,20 +78,21 @@ const adminController = {
     }
   },
 
-  getActive: async (req, res) => {
-    const activeAccounts = await Account.find({ status: "active" });
-    let activeUsers = [];
-    const accessToken = req.cookies.accessToken;
-    const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
-    const user = await User.findOne({ username: verifyToken.data.username });
-    for (let item of activeAccounts) {
-      activeUsers.push(await User.findOne({ username: item.username }).lean());
-    }
-    return res.render("activated", {
-      layout: "admin",
-      user,
-      activeUsers,
-    });
+  getChooseToAdd: async (req, res) => {
+  
+    // if (!req.session.isLogin) {
+    //   return res.redirect("/login");
+    // } else {
+      const accessToken = req.cookies.accessToken;
+      const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+      let user = await User.findOne({ username: verifyToken.data.username });
+      return res.render("addOption", {
+        title: "GreenVN",
+        layout: "admin",
+        user: user.toObject(),
+        newProductButton: true,
+      });
+    //}
   },
   getDisabled: async (req, res) => {
     const disableAccounts = await Account.find({ status: "disable" });
@@ -332,6 +336,53 @@ const adminController = {
       return res.json({ msg: "Tìm kiếm không hợp lệ" });
     }
   },
+
+  getAddLaptop:async(req,res) => {
+    const accessToken = req.cookies.accessToken;
+    const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+    const user = await User.findOne({
+      username: verifyToken.data.username,
+    }).lean();
+    
+    return res.render("addLaptopForm", {layout:"admin",user,preCategoryID:"c00001"})
+  },
+
+  postAddLaptopForm: async(req,res) => {
+    const accessToken = req.cookies.accessToken;
+    const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+    const user = await User.findOne({
+      username: verifyToken.data.username,
+    }).lean();
+
+    let product_id ="p" + (await Product.find({})).length +1
+
+    let product_detail = {
+
+      cpu: req.body.CPU,
+      ram:req.body.RAM,
+      hardDisk:req.body.HardDisk,
+      VGA:req.body.VGA,
+      monitor:req.body.Monitor,
+      port: req.body.Port,
+      opticalDrive: req.body.OpticalDrive,
+      audio: req.body.Audio,
+      keyboard:req.body.keyboard,
+      memoryReader:req.body.MemoryReader,
+      LAN: req.body.LAN,
+      WIFI:req.body.WIFI,
+      Bluetooth: req.body.Bluetooth,
+      Webcam: req.body.Webcam,
+      OS: req.body.OS,
+      pin: req.body.pin,
+      weight: req.body.weight,
+      color: req.body.color,
+      size: req.body.size,
+
+    }
+    let product_images =[req.body.link1,req.body.link2,req.body.link3,req.body.link4,req.body.link5,req.body.link6]
+    Product.create({product_id: product_id, category_id:req.body.categoryID, product_name: req.body.productName, product_price: req.body.price, product_images,product_detail})
+    return res.redirect("/admin/products")
+  }
 };
 
 module.exports = adminController;

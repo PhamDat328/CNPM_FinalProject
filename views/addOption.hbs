@@ -1,0 +1,98 @@
+<div class="container">
+    <a href="/admin/" style="display: block; 
+    color:white; 
+    background-color:black; 
+    border-radius:10px;
+    width:150px;
+    height:30px;
+    text-decoration:none;
+    padding:0.5rem">⬅ Về trang chính</a>
+    <style>
+        .OptionBox-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .OptionBox {
+            width: 30%;
+            height: 200px;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .OptionBox-content {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .OptionBox img {
+            width: 120px;
+        }
+
+        @media screen and (max-width: 860px) {
+            .dashboard {
+                width: 65%;
+            }
+        }
+
+        .OptionBox:hover{
+            cursor: pointer;
+            transform: scale(1.05);
+            box-shadow: 0px 0px 4px #000;
+        }
+    </style>
+    <h3 style="font-family: system-ui;color:black; text-align:center">Chọn loại sản phẩm</h3>
+    <div class="OptionBox-group">
+
+        <a class="OptionBox" style="background-color: #4dc0e9 ;" href="/admin/newproduct/laptop">
+
+            <div class="OptionBox-content">
+                <p>Laptop</p>
+            </div>
+            <img src="/images/productIcon/laptop.png" alt="">
+
+        </a>
+        <a class="OptionBox" style="background-color: #e99d40 ;" href="/admin/newproduct/keyboard">
+            <div class="OptionBox-content">
+                <p>Bàn phím</p>
+            </div>
+            <img src="/images/productIcon/keyboard.png" alt="">
+        </a>
+        <a class="OptionBox" style="background-color: #a04d47 ;" href="/admin/newproduct/mouse">
+            <div class="OptionBox-content">
+                <p>Chuột</p>
+            </div>
+            <img src="/images/productIcon/mouse.png" alt="">
+        </a>
+        <a class="OptionBox" style="background-color: #47a05e ;" href="/admin/newproduct/headphone">
+
+            <div class="OptionBox-content">
+                <p>Tai nghe</p>
+            </div>
+            <img src="/images/productIcon/headphones.png" alt="">
+
+        </a>
+        <a class="OptionBox" style="background-color: #5147a0 ;" href="/admin/newproduct/chair">
+            <div class="OptionBox-content">
+                <p>Ghế gaming</p>
+            </div>
+            <img src="/images/productIcon/gaming-chair.png" alt="">
+        </a>
+        <a class="OptionBox" style="background-color: #a0478e ;" href="/admin/newproduct/monitor">
+            <div class="OptionBox-content">
+                <p>Màn hình</p>
+            </div>
+            <img src="/images/productIcon/monitor.png" alt="">
+        </a>
+    </div>
+
+</div>

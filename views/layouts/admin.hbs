@@ -84,19 +84,20 @@
 
       <div class="admin-menu">
 
-        <!-- deposit -->
-        <a href="/admin/products" class="menu-item">
+ 
+        <a href="/admin/products" class="menu-item" >
           <img src="/images/productManagement.png" alt="pending" />
           <p class="side-nav-text side-nav-menu-text">Sản phẩm</p>
         </a>
 
-        <!-- withdraw -->
-        <a href="/admin/newproduct" class="menu-item">
+
+        <a href="/admin/newproduct" class="menu-item {{#if newProductButton}} menu-item-active  {{/if}}" >
           <img src="/images/plus.png" alt="activated" />
           <p class="side-nav-text side-nav-menu-text">Thêm sản phẩm</p>
         </a>
 
-        <!-- transaction -->
+
+
         <a href="/admin/transactionApproval" class="menu-item">
           <img src="/images/customer.png" alt="transaction" />
           <p class="side-nav-text side-nav-menu-text">Quản lý thành viên</p>

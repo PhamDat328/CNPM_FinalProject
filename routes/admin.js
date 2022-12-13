@@ -10,12 +10,16 @@ router
   .route("/products")
   .get(adminController.getProduct)
   .post(adminController.searchProducts);
-router.route("/activated/:username").post(adminController.activated);
-router.route("/cancel/:username").post(adminController.disabled);
-router.route("/addInfo/:username").post(adminController.addInfo);
 
-router.route("/activated").get(adminController.getActive);
-router.route("/disabled").get(adminController.getDisabled);
+
+router.route("/newproduct").get(adminController.getChooseToAdd);
+router.route("/newproduct/laptop").get(adminController.getAddLaptop).post(adminController.postAddLaptopForm);
+router.route("/newproduct/mouse").get(adminController.getAddLaptop);
+router.route("/newproduct/headphone").get(adminController.getAddLaptop);
+router.route("/newproduct/chair").get(adminController.getAddLaptop);
+router.route("/newproduct/monitor").get(adminController.getAddLaptop);
+
+
 router
   .route("/productDetail/:product_id")
   .get(adminController.getProductDetail);
