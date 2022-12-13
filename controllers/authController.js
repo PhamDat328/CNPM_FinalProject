@@ -405,11 +405,7 @@ const authController = {
             
             if (user.admin) {
                 
-                return res.render("adminHomepage", {
-                    title: "Green.vn",
-                    layout: "admin",
-                    user: user.toObject(),
-                });
+                return res.redirect("/admin")
             }
 
             const productList = await Product.find({}).lean()

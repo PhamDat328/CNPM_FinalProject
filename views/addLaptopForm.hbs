@@ -1,0 +1,148 @@
+<div class="container" style="margin-bottom: 3.5rem;">
+
+    <form action="/admin/newproduct/laptop" id="userFunctionForm" method="POST">
+        <h2>Thêm sản phẩm</h2>
+        <div class="form-content">
+            <div class="user__form__icon">
+                <img src="/images/productIcon/laptop.png">
+
+            </div>
+            <div class="form-group">
+                <label for="categoryID">Mã loại</label>
+                <input type="text" class="form-control" id="categorytID" name="categoryID" value="{{{preCategoryID}}}"
+                    readonly>
+
+            </div>
+            <div class="form-group">
+                <label for="productName">Tên sản phẩm</label>
+                <input type="text" class="form-control" id="productName" name="productName"
+                    value="{{{preProductName}}}">
+
+            </div>
+            <div class="form-group">
+                <label for="price">Giá</label>
+                <input type="number" class="form-control" id="price" name="price" 
+                    value="{{{preprice}}}">
+            </div>
+            <style>
+                #link{
+                    margin-top: 5px;
+                }
+            </style>
+           
+            <div class="form-group">
+                <label for="CPU">Thông tin CPU</label>
+                <input type="text" class="form-control" id="CPU" name="CPU" 
+                    value="{{{preCPU}}}">
+            </div>
+            <div class="form-group">
+                <label for="Ram">Thông tin RAM </label>
+                <input type="text" class="form-control" id="Ram" name="Ram"
+                    value="{{{preRAM}}}">
+            </div>
+            <div class="form-group">
+                <label for="HardDisk">Thông tin ổ cứng </label>
+                <input type="text" class="form-control" id="HardDisk" name="HardDisk"
+                    value="{{{preHardDisk}}}">
+            </div>
+            <div class="form-group">
+                <label for="VGA">Thông tin VGA </label>
+                <input type="text" class="form-control" id="VGA" name="VGA"
+                    value="{{{preVGA}}}">
+            </div>
+            <div class="form-group">
+                <label for="Monitor">Thông tin màn hình </label>
+                <input type="text" class="form-control" id="Monitor" name="Monitor"
+                    value="{{{preMonitor}}}">
+            </div>
+            <div class="form-group">
+                <label for="Port">Thông tin cổng giao tiếp </label>
+                <input type="text" class="form-control" id="Port" name="Port"
+                    value="{{{prePort}}}">
+            </div>
+            <div class="form-group">
+                <label for="OpticalDrive">Thông tin ổ quang</label>
+                <input type="text" class="form-control" id="OpticalDrive" name="OpticalDrive"
+                    value="{{{preOpticalDrive}}}">
+            </div>
+            <div class="form-group">
+                <label for="keyboard">Thông tin bàn phím</label>
+                <input type="text" class="form-control" id="keyboard" name="keyboard"
+                    value="{{{prekeyboard}}}">
+            </div>
+            <div class="form-group">
+                <label for="Audio">Thông tin audio</label>
+                <input type="text" class="form-control" id="Audio" name="Audio"
+                    value="{{{preAudio}}}">
+            </div>
+            <div class="form-group">
+                <label for="MemoryReader">Thông tin bộ đọc thẻ nhớ</label>
+                <input type="text" class="form-control" id="MemoryReader" name="MemoryReader"
+                    value="{{{preMemoryReader}}}">
+            </div>
+            <div class="form-group">
+                <label for="LAN">Chuẩn LAN</label>
+                <input type="text" class="form-control" id="LAN" name="LAN"
+                    value="{{{preLAN}}}">
+            </div>
+            <div class="form-group">
+                <label for="WIFI">Chuẩn WIFI</label>
+                <input type="text" class="form-control" id="WIFI" name="WIFI"
+                    value="{{{preWIFI}}}">
+            </div>
+            <div class="form-group">
+                <label for="Bluetooth">Bluetooth</label>
+                <input type="text" class="form-control" id="Bluetooth" name="Bluetooth"
+                    value="{{{preBluetooth}}}">
+            </div>
+            <div class="form-group">
+                <label for="Webcam">Webcam</label>
+                <input type="text" class="form-control" id="Webcam" name="Webcam"
+                    value="{{{preWebcam}}}">
+            </div>
+            <div class="form-group">
+                <label for="OS">Hệ điều hành</label>
+                <input type="text" class="form-control" id="OS" name="OS"
+                    value="{{{preOS}}}">
+            </div>
+            <div class="form-group">
+                <label for="pin">Thông tin pin</label>
+                <input type="text" class="form-control" id="pin" name="pin"
+                    value="{{{prepin}}}">
+            </div>
+            <div class="form-group">
+                <label for="weight">Trọng lương</label>
+                <input type="text" class="form-control" id="weight" name="weight"
+                    value="{{{preWeight}}}">
+            </div>
+            <div class="form-group">
+                <label for="color">Màu sắc</label>
+                <input type="text" class="form-control" id="color" name="color"
+                    value="{{{precolor}}}">
+            </div>
+            <div class="form-group">
+                <label for="size">Kích thước</label>
+                <input type="text" class="form-control" id="size" name="size"
+                    value="{{{presize}}}">
+            </div>
+             <div class="form-group">
+                <label for="link">Link ảnh minh họa (tối đa 6)</label>
+                <input type="text" class="form-control" id="link" name="link1">
+                <input type="text" class="form-control" id="link" name="link2">
+                <input type="text" class="form-control" id="link" name="link3">
+                <input type="text" class="form-control" id="link" name="link4">
+                <input type="text" class="form-control" id="link" name="link5">
+                <input type="text" class="form-control" id="link" name="link6">
+            </div>
+            {{#if error.isError}} <div class="invalid-feedback">{{{error.errorMessage}}}</div>{{/if}}
+            <div class="option">
+                <a href="/admin/" class="btn btn-secondary">Trở lại</a>
+                <button type="submit" class="btn btn-primary">Thêm</button>
+            </div>
+
+
+        </div>
+
+    </form>
+
+</div>

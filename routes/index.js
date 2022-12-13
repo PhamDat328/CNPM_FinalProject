@@ -34,17 +34,4 @@ router
   .get(authController.getRegisterPage)
   .post(authController.postRegisterPage);
 
-router
-  .route("/deposit")
-  .get(userController.getDepositForm)
-  .post(userController.postDepositForm);
-router
-  .route("/withdraw")
-  .get(userController.getWithdrawForm)
-  .post(userController.postWithdrawForm);
-router.route("/transfer").get(userController.getTransferForm);
-router.route("/buyphonecard").get(userController.getBuyPhoneCardForm);
-router.route("/transaction").get(userController.getTransactionHistory);
-router.route("/profile").get(userController.getProfile);
-
 module.exports = router;
