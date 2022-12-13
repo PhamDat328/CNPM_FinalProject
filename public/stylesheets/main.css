@@ -427,10 +427,13 @@ footer {
 /* -------------- Cart ---------------- */
 
 #cart {
+    color: #046425;
     margin-top: 170px;
 }
 
 #cart h3 {
+    font-size: 24;
+    font-weight: bold;
     width: 1280px;
     margin: 0 auto;
 }
@@ -439,7 +442,7 @@ footer {
     width: 1280px;
     margin: 0 auto;
     display: flex;
-    height: 500px;
+    height: fit-content
 
 }
 
@@ -566,7 +569,7 @@ hr {
 
 .pay-form-container {
     background-color: #edfceb;
-
+    color: #000000;
 }
 
 .wrap-pay-form {
@@ -590,13 +593,15 @@ hr {
 }
 
 .methods .method {
-    
-    
     padding: 1rem;
     width: 50%;
 }
+.methods .method input {
+    /* display: none; */
+}
 
-.methods .method div {
+.methods .method label {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -637,6 +642,10 @@ hr {
     display: flex;
 }
 
+/* .activeMethod {
+    background-color: #046425;
+} */
+
 .wrap-order-info .order-item img {
     width: 80px;
     height: 80px; 
@@ -673,3 +682,4 @@ hr {
     display: flex;
     justify-content: space-between;
 }
+

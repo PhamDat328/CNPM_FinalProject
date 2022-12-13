@@ -8,6 +8,8 @@ const Account = require("../models/Account");
 const uploadDir = __dirname + "/../public/images/uploads";
 const mailer = require("./sendMail");
 const { Cookie } = require("express-session");
+const Product = require("../models/Products");
+const { count } = require("../models/User");
 function generateLocalDate() {
   let d = new Date();
   let currentDate = new Date(Date.now() - d.getTimezoneOffset() * 60 * 1000);
@@ -127,6 +129,7 @@ function makeWithdraw(
     return res.redirect("/");
   }
 }
+
 module.exports = {
   getDepositForm: async (req, res, next) => {
     if (!req.session.isLogin) {
@@ -376,6 +379,7 @@ module.exports = {
       });
     }
   },
+
   getProfile: async (req, res, next) => {
     if (req.session.isLogin) {
       const user = await User.findOne({ username: req.session.username })
@@ -397,101 +401,209 @@ module.exports = {
       } else if (account.status === "addition") {
         account.status = "Chờ bổ sung thêm thông tin";
       }
-      return res.render("profile", { layout: "main", user, account });
+      return res.render("profile", { layout: "userLayout", user, account });
     } else {
       return res.redirect("/login");
     }
   },
 
-  getForgotPasswordForm:(req,res) =>{
-    req.session.destroy()
-    res.render("forgotPassword", { title: "SmartWallet", layout: "blankLayout" });
+  getForgotPasswordForm: (req, res) => {
+    req.session.destroy();
+    res.render("forgotPassword", {
+      title: "SmartWallet",
+      layout: "blankLayout",
+    });
   },
 
-  getOTPForm:(req,res) => {
-    if(req.session.recoverEmail && req.session.recoverOTP && req.session.otpExpire)
-    {
-      let otpExpire = new Date(req.session.otpExpire)
-      let current = generateLocalDate()
-      let timeBetweenExpAndCurr = new Date(otpExpire-current)
-      let remainTime = timeBetweenExpAndCurr.getMinutes() * 60000 + timeBetweenExpAndCurr.getSeconds()*1000;
-      console.log(otpExpire)
-      console.log(current)
-      console.log(timeBetweenExpAndCurr)
-      return res.render("enterOTP", { title: "SmartWallet", layout: "blankLayout",recoverEmail:req.session.recoverEmail,expireTime:remainTime});
-    }
-    else
-    {
-      return res.redirect("/users/forgotpassword")
+  getOTPForm: (req, res) => {
+    if (
+      req.session.recoverEmail &&
+      req.session.recoverOTP &&
+      req.session.otpExpire
+    ) {
+      let otpExpire = new Date(req.session.otpExpire);
+      let current = generateLocalDate();
+      let timeBetweenExpAndCurr = new Date(otpExpire - current);
+      let remainTime =
+        timeBetweenExpAndCurr.getMinutes() * 60000 +
+        timeBetweenExpAndCurr.getSeconds() * 1000;
+      console.log(otpExpire);
+      console.log(current);
+      console.log(timeBetweenExpAndCurr);
+      return res.render("enterOTP", {
+        title: "SmartWallet",
+        layout: "blankLayout",
+        recoverEmail: req.session.recoverEmail,
+        expireTime: remainTime,
+      });
+    } else {
+      return res.redirect("/users/forgotpassword");
     }
   },
-  postForgotPasswordForm:(req,res) => {
-    
-    User.findOne({email: req.body.recoverEmail}, async(err,result) =>{
-      
-      if(err !== null)
-      {
-        return res.render("forgotPassword", { title: "SmartWallet", layout: "blankLayout", error:"Xảy ra lỗi trong việc tìm kiếm. Vui lòng thử lại" });
-      }
-      else
-      {
-        
-        if(result === null)
-        {
-          return res.render("forgotPassword", { title: "SmartWallet", layout: "blankLayout", error:"Email chưa được đăng ký"});
-        }
-        else
-        {
-          
-          let otp = '';
-          let otpExpire = generateLocalDate()
-          for(let i = 0 ; i <= 5 ; i++)
-          {
-            otp+= Math.floor(Math.random()*9)
+  postForgotPasswordForm: (req, res) => {
+    User.findOne({ email: req.body.recoverEmail }, async (err, result) => {
+      if (err !== null) {
+        return res.render("forgotPassword", {
+          title: "SmartWallet",
+          layout: "blankLayout",
+          error: "Xảy ra lỗi trong việc tìm kiếm. Vui lòng thử lại",
+        });
+      } else {
+        if (result === null) {
+          return res.render("forgotPassword", {
+            title: "SmartWallet",
+            layout: "blankLayout",
+            error: "Email chưa được đăng ký",
+          });
+        } else {
+          let otp = "";
+          let otpExpire = generateLocalDate();
+          for (let i = 0; i <= 5; i++) {
+            otp += Math.floor(Math.random() * 9);
           }
 
-          req.session.recoverOTP = otp
-          req.session.otpExpire = otpExpire.setMinutes(otpExpire.getMinutes() + 1.5)
-          req.session.recoverEmail = req.body.recoverEmail
-          console.log(req.session)
+          req.session.recoverOTP = otp;
+          req.session.otpExpire = otpExpire.setMinutes(
+            otpExpire.getMinutes() + 1.5
+          );
+          req.session.recoverEmail = req.body.recoverEmail;
+          console.log(req.session);
           // await mailer.sendMail(req.body.recoverEmail, 'Smart Wallet System', otp)
-          return res.redirect("/users/recover")
-         
+          return res.redirect("/users/recover");
         }
       }
-
-    }).select("username")
+    }).select("username");
   },
-  postOTPForm: (req,res)=>{
-      
-    if(req.session.recoverEmail && req.session.recoverOTP && req.session.otpExpire)
-    {
-      let otpExpire = new Date(req.session.otpExpire)
-      let current = generateLocalDate()
-      let timeBetweenExpAndCurr = new Date(otpExpire-current)
-      let remainTime = timeBetweenExpAndCurr.getMinutes() * 60000 + timeBetweenExpAndCurr.getSeconds()*1000;
+  postOTPForm: (req, res) => {
+    if (
+      req.session.recoverEmail &&
+      req.session.recoverOTP &&
+      req.session.otpExpire
+    ) {
+      let otpExpire = new Date(req.session.otpExpire);
+      let current = generateLocalDate();
+      let timeBetweenExpAndCurr = new Date(otpExpire - current);
+      let remainTime =
+        timeBetweenExpAndCurr.getMinutes() * 60000 +
+        timeBetweenExpAndCurr.getSeconds() * 1000;
       // 1 minute = 60000ms , 1second= 1000ms
-      
-      if((current < otpExpire) && (req.session.recoverOTP === req.body.fullOTP))
-      {
+
+      if (current < otpExpire && req.session.recoverOTP === req.body.fullOTP) {
         //TODO: goto changepassword form
-      }
-      else if((current < otpExpire) && (req.session.recoverOTP !== req.body.fullOTP))
-      {
-        
-        return res.render("enterOTP", { title: "SmartWallet", layout: "blankLayout",recoverEmail:req.session.recoverEmail,expireTime:remainTime,response:"Mã OTP không hợp lệ" });
-      }
-      else
-      {
-        return res.render("enterOTP", { title: "SmartWallet", layout: "blankLayout",recoverEmail:req.session.recoverEmail,expireTime:0,response:"Mã OTP đã hết hạn" });
+      } else if (
+        current < otpExpire &&
+        req.session.recoverOTP !== req.body.fullOTP
+      ) {
+        return res.render("enterOTP", {
+          title: "SmartWallet",
+          layout: "blankLayout",
+          recoverEmail: req.session.recoverEmail,
+          expireTime: remainTime,
+          response: "Mã OTP không hợp lệ",
+        });
+      } else {
+        return res.render("enterOTP", {
+          title: "SmartWallet",
+          layout: "blankLayout",
+          recoverEmail: req.session.recoverEmail,
+          expireTime: 0,
+          response: "Mã OTP đã hết hạn",
+        });
       }
 
-      return res.redirect("/login")
+      return res.redirect("/login");
+    } else {
+      return res.redirect("/users/forgotpassword");
     }
-    else
-    {
-      return res.redirect("/users/forgotpassword")
+  },
+
+  getCart: async (req, res) => {
+    const user = await User.findOne({ username: req.session.username });
+
+    const products = await Product.find({
+      product_id: { $in: user.cart },
+    }).lean();
+
+    const counts = {};
+    user.cart.forEach(function (x) {
+      counts[x] = (counts[x] || 0) + 1;
+    });
+    let totalBill = 0;
+    for (let i = 0; i < products.length; i++) {
+      totalBill += products[i].product_price;
+      products[i].quantity = counts[products[i].product_id];
+      products[i].totalPrice =
+        Number(counts[products[i].product_id]) *
+        Number(products[i].product_price);
+      products[i].totalPrice = toMoney(products[i].totalPrice);
+      products[i].product_price = toMoney(products[i].product_price);
     }
-           
-  }
+    totalBill = toMoney(totalBill);
+
+    res.render("cart", {
+      layout: "userLayout",
+      user,
+      counts,
+      totalBill,
+      quantity: user.cart.length,
+      products,
+    });
+  },
+  getCheckOut: async (req, res) => {
+    const user = await User.findOne({ username: req.session.username });
+
+    const products = await Product.find({
+      product_id: { $in: user.cart },
+    }).lean();
+
+    const counts = {};
+    user.cart.forEach(function (x) {
+      counts[x] = (counts[x] || 0) + 1;
+    });
+    let totalBill = 0;
+    for (let i = 0; i < products.length; i++) {
+      totalBill += products[i].product_price;
+      products[i].quantity = counts[products[i].product_id];
+      products[i].totalPrice =
+        Number(counts[products[i].product_id]) *
+        Number(products[i].product_price);
+      products[i].totalPrice = toMoney(products[i].totalPrice);
+      products[i].product_price = toMoney(products[i].product_price);
+    }
+    totalBill = toMoney(totalBill);
+
+    res.render("pay-form", {
+      layout: "userLayout",
+      user,
+      counts,
+      totalBill,
+      quantity: user.cart.length,
+      products,
+    });
+  },
+  getProductDetail: async (req, res) => {
+    try {
+      const product = await Product.findOne({
+        product_id: req.params.product_id,
+      }).lean();
+
+      const keys = Object.keys(product.product_detail);
+
+      keys.forEach((el) => {
+        product.product_detail.keys = el.toUpperCase();
+      });
+      product.product_price = toMoney(product.product_price);
+
+      res.render("product-detail", { layout: "userLayout", product });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  addToCart: async (req, res) => {
+    const user = await User.findOne({ username: req.session.username });
+    await user.updateOne({ $push: { cart: req.params.product_id } });
+
+    res.redirect("/cart");
+  },
 };

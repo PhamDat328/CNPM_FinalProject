@@ -45,27 +45,33 @@
                 <span>Thông tin thanh toán của bạn sẽ luôn được bảo mật</span>
                 <div class="methods">
                     <div class="method">
-                        <div>
+                        <label for="e-wallet">
                             <p>Thanh toán bằng ví điện tử</p>
                             <span>Momo, ZaloPay, ApplePay, VNPay</span>
-                        </div>
+                        </label>
+                        <input class="active-method" type="radio" name="paymentMethod" id="e-wallet" value="e-wallet">
 
                     </div>
                     <div class="method">
-                        <div>
+                        <label for="payWhenReceive">
                             <p>Thanh toán khi nhận hàng</p>
-                        </div>
+                        </label>
+                        <input type="radio" name="paymentMethod" id="payWhenReceive">
                     </div>
                     <div class="method">
-                        <div>
+                        <label for="bank">
                             <p>Thanh toán bằng thẻ ngân hàng</p>
                             <span>Vietcombank, Agribank, ACB, NamAbank,...</span>
-                        </div>
+                        </label>
+                        <input type="radio" name="paymentMethod" id="bank">
+
                     </div>
                     <div class="method">
-                        <div>
+                        <label for="qrCode">
                             <p>Thanh toán bằng QR Code</p>
-                        </div>
+                        </label>
+                        <input type="radio" name="paymentMethod" id="qrCode">
+
                     </div>
 
                 </div>
@@ -91,20 +97,23 @@
             <div class="wrap-order-info">
                 <h3>Thông tin đơn hàng</h3>
                 <div class="order-items">
+                    {{#each products}}
+
                     <div class="order-item">
 
-                        <img src="./images/products/acer-aspire.png" alt="">
+                        <img src="{{lookup product_images 0}}" alt="">
 
                         <div class="order-item-info">
                             <div class="order-item-name">
-                                <p>Laptop ACER Aspire 7 A715-42G-R05G (Ryzen 5 5500U/RAM 8GB/512GB SSD/ Windows 11)
+                                <p>{{product_name}}
                                 </p>
                             </div>
-                            <div class="order-item-quantity">Số lượng 1</div>
-                            <div class="order-item-price"><b>17.890.000đ</b></div>
+                            <div class="order-item-quantity">Số lượng <b style="color: green; font-size:16px">{{this.quantity}}</b></div>
+                            <div class="order-item-price"><b>{{this.totalPrice}}</b></div>
                         </div>
                     </div>
-                    <div class="order-item">
+                    {{/each}}
+                    {{!-- <div class="order-item">
 
                         <img src="./images/products/acer-nitro5.png" alt="">
 
@@ -115,13 +124,13 @@
                             <div class="order-item-quantity">Số lượng 1</div>
                             <div class="order-item-price"><b>24.990.000₫</b></div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="order-total-price">
                     <div class="order-price-item">
                         <span>Tổng tạm tính</span>
-                        <b>35.880.000₫</b>
+                        <b>{{totalBill}}</b>
                     </div>
                     <div class="order-price-item">
                         <span>Phí vận chuyển</span>
@@ -129,7 +138,7 @@
                     </div>
                     <div class="order-price-item">
                         <span>Thành tiền</span>
-                        <b style="font-size: 20px; color: red;">35.880.000 ₫
+                        <b style="font-size: 20px; color: red;">{{totalBill}}
                         </b>
                     </div>
                 </div>

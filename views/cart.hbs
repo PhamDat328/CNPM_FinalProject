@@ -15,27 +15,32 @@
         <hr />
 
         <div class="chosen-product-container">
-          <div class="chosen-product-item">
-            <span style="width: 53%; display: flex; align-items: center">
-              <span><input type="checkbox" name="" id="" /></span>
-              <img src="./images/products/acer-aspire.png" alt="" />
-              <span class="chosen-product-name">
-                Laptop ACER Aspire 7 A715-42G-R05G (Ryzen 5 5500U/RAM 8GB/512GB
-                SSD/ Windows 11)
+          {{#each products}}
+            <div class="chosen-product-item">
+              <span style="width: 53%; display: flex; align-items: center">
+                <span><input type="checkbox" name="" id="" /></span>
+                <img src="{{lookup this.product_images 0}}" alt="" />
+                <span class="chosen-product-name">
+                  {{this.product_name}}
+                </span>
               </span>
-            </span>
-            <span class="chosen-product-price">
-              <b>17.990.000₫</b>
-            </span>
-            <span class="chosen-product-quantity">
-              <span class="subtract">–</span> <span class="quantity">1</span>
-              <span class="add">+</span>
-            </span>
-            <span class="chosen-product-total-price">
-              <b>17.990.000₫</b>
-            </span>
-          </div>
-          <div class="chosen-product-item">
+              <span class="chosen-product-price">
+                <b>{{this.product_price}}</b>
+              </span>
+
+              <span class="chosen-product-quantity">
+                <span class="subtract">–</span>
+                <span class="quantity">{{quantity}}</span>
+                <span class="add">+</span>
+              </span>
+
+              <span class="chosen-product-total-price">
+                <b>{{totalPrice}}</b>
+              </span>
+            </div>
+
+          {{/each}}
+          {{! <div class="chosen-product-item">
             <span style="width: 53%; display: flex; align-items: center">
               <span><input type="checkbox" name="" id="" /></span>
               <img src="./images/products/acer-nitro5.png" alt="" />
@@ -48,13 +53,14 @@
               <b>24.990.000₫</b>
             </span>
             <span class="chosen-product-quantity">
-              <span class="subtract">–</span> <span class="quantity">1</span>
+              <span class="subtract">–</span>
+              <span class="quantity">1</span>
               <span class="add">+</span>
             </span>
             <span class="chosen-product-total-price">
               <b>24.990.000₫</b>
             </span>
-          </div>
+          </div> }}
         </div>
       </div>
     </div>
@@ -73,13 +79,13 @@
           <p>Thanh toán</p>
           <div class="temp-cal pay-item">
             <span>Tổng tạm tính</span>
-            <span>35.880.000₫</span>
+            <span>{{totalBill}}</span>
           </div>
           <div class="total-price pay-item">
             <span>Thành tiền</span>
-            <span>35.880.000₫</span>
+            <b style="color: red;">{{totalBill}}</b>
           </div>
-          <a href="./pay-form.html">
+          <a href="/checkout">
             <button class="pay-btn">
               <p>Thanh toán</p>
               <span>Bạn cần đăng nhập để tiếp tục</span>

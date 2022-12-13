@@ -9,7 +9,7 @@
 
 body {
     color: white;
-    background-color: #e7e7e7c4;
+    /* background-color: #e7e7e7c4; */
     font-family: "Lato", sans-serif;
     max-width: 100%;
     height: 100%;
@@ -698,18 +698,18 @@ p {
     cursor: pointer;
 }
 
-tbody tr:nth-child(odd) {
+/* tbody tr:nth-child(odd) {
     background-image: linear-gradient(to right,
             #0f7bc4,
             #2093ca,
             #32afcf,
             #3dbed3);
     transition: 0.5s ease-out;
-}
+} */
 
-tbody tr:nth-child(even) {
+/* tbody tr:nth-child(even) {
     background-color: #cccccc;
-}
+} */
 
 .icon {
     text-align: center;
@@ -747,14 +747,7 @@ tbody tr:nth-child(even) {
 
 /* End main second row (chart js) */
 
-footer {
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    height: 70px;
-    background: aqua;
-    margin-top: 20px;
-}
+
 
 /* Start home page responsive */
 
@@ -1082,7 +1075,7 @@ button {
 }
 
 .login__form___logo::after {
-    content: "Smart Wallet";
+    content: "GREEN.VN";
     font-size: 3rem;
     font-weight: 600;
     font-family: "Coiny", cursive;
@@ -1986,12 +1979,13 @@ button {
 /*-------------------------------------------------- Enter OTP CSS ----------------------------------------------------- */
 
 #user-profile {
-    width: 95%;
+    width: 80%;
     background-color: rgb(249, 252, 254);
     height: 500px;
     margin: 0 auto;
     margin-top: 3rem;
-    box-shadow: rgb(38 57 77) -1px 0px 35px -5px;
+    box-shadow: rgb(38 57 77) -1px 0px 10px -5px;
+    border-radius: 8px;
 }
 
 #user-profile .row-user-profile {
@@ -2023,7 +2017,7 @@ button {
 
 #user-profile .col-left-3 .avatar {
     width: 170px;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
 }
 
 #user-profile .col-left-3 .avatar input {

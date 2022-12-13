@@ -127,7 +127,6 @@ function showUserOption() {
 // Hide all dropdown when click anywhere on window
 const window_wrapper = document.getElementById("window-wrapper");
 window.onclick = (event) => {
-  
   if (
     !event.target.matches(".profile-wrap") &&
     !event.target.matches(".userOption")
@@ -236,6 +235,24 @@ function createUserChart() {
 }
 
 //End User Chart JS
+let main_picture = document.querySelector(".main-picture img");
+let picture_Menu = document.querySelectorAll(".others-picture img");
+
+if (document.querySelector(".add-to-cart-btn")) {
+  let quantity = 0;
+  const cartQuantity = document.querySelector(".cart-quantity");
+  const addToCard = document.querySelector(".add-to-cart-btn");
+  addToCard.addEventListener("click", () => {
+    quantity += 1;
+    cartQuantity.innerHTML = quantity;
+  });
+}
+
+picture_Menu.forEach(function (picture) {
+  picture.addEventListener("click", function () {
+    main_picture.src = picture.src;
+  });
+});
 
 // -------------------------------------------------------------
 // Register page
@@ -599,12 +616,3 @@ function searchPendingTransaction() {
       });
   }
 }
-
-let main_picture = document.querySelector(".main-picture img");
-let picture_Menu = document.querySelectorAll(".others-picture img");
-
-picture_Menu.forEach(function (picture) {
-  picture.addEventListener("click", function () {
-    main_picture.src = picture.src;
-  });
-});

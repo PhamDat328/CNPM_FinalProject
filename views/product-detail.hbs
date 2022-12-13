@@ -1,62 +1,40 @@
 <style>
-  .order-btn {
-    text-decoration: none;
-    padding: 10px 36px;
-    border-radius: 4px;
-    font-size: 20px;
-    font-weight: 600;
-    margin-left: 12px;
-    cursor: pointer;
-  }
+  .order-btn { text-decoration: none; padding: 10px 36px; border-radius: 4px;
+  font-size: 20px; font-weight: 600; margin-left: 12px; cursor: pointer; color:
+  #fff; background-color: #046425;} .order-btn:hover { color: #fff; }
 </style>
 <div class="back-btn">
-  <a href="../index.html">←</a>
+  <a href="/">←</a>
 </div>
-<div class="item-container mb-5">
+<div
+  class="item-container mb-5"
+  style="margin-top: 8rem; color:#000; background-color: #fff"
+>
   <div class="primary-info">
     <div class="right-side">
       <div class="main-picture">
-        <img
-          src="https://product.hstatic.net/1000026716/product/r5-3050_1ca8d2e294ca4a3c8c875ac518beb714.png"
-        />
+        <img src="{{lookup product.product_images 0}}" />
       </div>
       <div class="others-picture">
-        <img
-          src="https://product.hstatic.net/1000026716/product/r5-3050_1ca8d2e294ca4a3c8c875ac518beb714.png"
-        />
-        <img
-          src="https://product.hstatic.net/1000026716/product/gearvn-laptop-gaming-acer-aspire-7-a715-43g-r8ga-1_fec51f0a2e794e59b71e0d6d56a86655.jpg"
-        />
-        <img
-          src="https://product.hstatic.net/1000026716/product/gearvn-laptop-gaming-acer-aspire-7-a715-43g-r8ga-2_f510b59dcdb74c14af179e5abeca0a95.jpg"
-        />
-        <img
-          src="https://product.hstatic.net/1000026716/product/gearvn-laptop-gaming-acer-aspire-7-a715-43g-r8ga-3_63d1e048fcc943e9ae75bd14ace00a5c.jpg"
-        />
-        <img
-          src="https://product.hstatic.net/1000026716/product/gearvn-laptop-gaming-acer-aspire-7-a715-43g-r8ga-5_546a710e8d324aeda8b9cfdf631e8f0d.jpg"
-        />
+        {{#each product.product_images}}
+          <img src="{{this}}" />
+        {{/each}}
       </div>
     </div>
     <div class="left-right">
       <div class="col-xs-12 product_parameters">
-        <h2 class="product_name">Laptop gaming Acer Aspire 7 A715 43G R8GA</h2>
+        <h2 class="product_name">{{product.product_name}}</h2>
 
         <p></p>
         <p>
-          <span style="font-size: 18px"
-            >✔&nbsp;Bảo hành chính hãng 12&nbsp;tháng.&nbsp;</span
-          >
+          <span style="font-size: 18px">✔&nbsp;Bảo hành chính hãng
+            12&nbsp;tháng.&nbsp;</span>
         </p>
         <p>
-          <span style="font-size: 18px"
-            >✔ Hỗ trợ đổi mới trong 7 ngày.&nbsp;</span
-          >
+          <span style="font-size: 18px">✔ Hỗ trợ đổi mới trong 7 ngày.&nbsp;</span>
         </p>
         <p>
-          <span style="font-size: 18px"
-            >✔ Windows bản quyền tích hợp.&nbsp;</span
-          >
+          <span style="font-size: 18px">✔ Windows bản quyền tích hợp.&nbsp;</span>
         </p>
         <p>
           <span style="font-size: 18px">✔ Miễn phí giao hàng toàn quốc.</span>
@@ -64,30 +42,21 @@
         <hr />
 
         <p>
-          <span style="color: #ff0000"
-            ><span style="font-size: 18px"
-              ><strong
-                ><u>ƯU ĐÃI KHI MUA KÈM LAPTOP TẠI GEARVN:&nbsp;</u></strong
-              ></span
-            ></span
-          >
+          <span style="color: rgb(7, 81, 7)"><span
+              style="font-size: 18px"
+            ><strong><u>ƯU ĐÃI KHI MUA KÈM LAPTOP TẠI GREEN.VN:&nbsp;</u></strong></span></span>
         </p>
         <p>
-          <span style="font-size: 18px"
-            >🎁 Giảm ngay 100.000đ khi mua chuột&nbsp;TUF Gaming M3, Logitech
-            G203, G102.<br />🎁 Giảm ngay 100.000đ khi mua thêm màn hình máy
-            tính.<br />🎁 Giảm ngay 100.000đ khi mua thêm Ram.<br
-          /></span>
+          <span style="font-size: 18px">🎁 Giảm ngay 100.000đ khi mua
+            chuột&nbsp;TUF Gaming M3, Logitech G203, G102.<br />🎁 Giảm ngay
+            100.000đ khi mua thêm màn hình máy tính.<br />🎁 Giảm ngay 100.000đ
+            khi mua thêm Ram.<br /></span>
         </p>
         <p>&nbsp;</p>
         <p>
-          <span style="font-size: 18px"
-            >Và còn rất nhiều ưu đãi khác.
-            <a href="#"
-              ><span style="color: #3498db"
-                ><strong>XEM NGAY CHI TIẾT TẠI ĐÂY</strong></span
-              ></a
-            >
+          <span style="font-size: 18px">Và còn rất nhiều ưu đãi khác.
+            <a href="#"><span style="color: #3498db"><strong>XEM NGAY CHI TIẾT
+                  TẠI ĐÂY</strong></span></a>
           </span>
         </p>
         <hr />
@@ -98,10 +67,15 @@
             style="font-size: 22px; font-weight: bold"
           >
             <span class="price-text">Giá: </span>
-            <span class="product_sale_price text-danger">19,990,000₫</span>
+            <span
+              class="product_sale_price text-danger"
+            >{{product.product_price}}</span>
 
             <div class="product-detail-btn">
-              <a href="#" class="add-to-cart-btn">Thêm vào giỏ hàng</a>
+              <a
+                href="/addToCart/{{product/product_id}}"
+                class="add-to-cart-btn"
+              >Thêm vào giỏ hàng</a>
               <a href="#" class="btn-success order-btn">Đặt hàng</a>
             </div>
           </div>
@@ -109,98 +83,19 @@
       </div>
     </div>
   </div>
-  <div class="detail-info">
+
+  <div class="detail-info mt-5">
+    <h3>Cấu hình chi tiết</h3>
     <table cellpadding="3" cellspacing="0">
-      <h2 style="display: block; margin-bottom: 10px">Thông tin chi tiết</h2>
       <tbody>
-        <tr>
-          <td class="header">CPU</td>
-          <td>AMD Ryzen 5-5625U 2.3GHz up to 4.3GHz 16MB</td>
-        </tr>
-        <tr>
-          <td class="header">Ram</td>
-          <td>8GB DDR4 3200MHz (2x SO-DIMM socket, up to 32GB SDRAM)</td>
-        </tr>
-        <tr>
-          <td class="header">Ổ cứng</td>
-          <td>512GB PCIe® NVMe™ M.2 SSD (1 slot)</td>
-        </tr>
-        <tr>
-          <td class="header">Card đồ họa</td>
-          <td>NVIDIA GeForce RTX 3050 4GB GDDR6</td>
-        </tr>
-        <tr>
-          <td class="header">Màn hình</td>
-          <td>
-            15.6" FHD (1920 x 1080) 144Hz SlimBezel, Acer ComfyView™ IPS LED LCD
-          </td>
-        </tr>
-        <tr>
-          <td class="header">Cổng giao tiếp</td>
-          <td>
-            1 x USB Type-C™ port: USB 3.2 Gen 1 (up to 5 Gbps)<br />
-            2 x USB 3.2 Gen 1 ports with one featuring power-off USB charging<br />
-            1x USB 2.0 port<br />
-            1 x 3.5 mm headphone/speaker jack, supporting headsets with
-            built-in<br />
-            1x HDMI® port with HDCP support<br />
-            1x Ethernet (RJ-45) port<br />
-            1x DC-in jack for AC adapter<br />
-            FingerPrint
-          </td>
-        </tr>
-        <tr>
-          <td class="header">Ổ quang</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td class="header">Audio</td>
-          <td>True Harmony; Dolby® Audio Premium</td>
-        </tr>
-        <tr>
-          <td class="header">Bàn phím</td>
-          <td>LED trắng</td>
-        </tr>
-        <tr>
-          <td class="header">Đọc thẻ nhớ</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td class="header">Chuẩn LAN</td>
-          <td>Gigabit</td>
-        </tr>
-        <tr>
-          <td class="header">Chuẩn WIFI</td>
-          <td>Wi-Fi 6E (2x2)</td>
-        </tr>
-        <tr>
-          <td class="header">Bluetooth</td>
-          <td>v5.2</td>
-        </tr>
-        <tr>
-          <td class="header">Webcam</td>
-          <td>HD Webcam</td>
-        </tr>
-        <tr>
-          <td class="header">Hệ điều hành</td>
-          <td>Windows 11 Home</td>
-        </tr>
-        <tr>
-          <td class="header">Pin</td>
-          <td>3 Cell 50Whr</td>
-        </tr>
-        <tr>
-          <td class="header">Trọng lượng</td>
-          <td>2.1 kg</td>
-        </tr>
-        <tr>
-          <td class="header">Màu sắc</td>
-          <td>Đen</td>
-        </tr>
-        <tr>
-          <td class="header">Kích thước</td>
-          <td>363.4 x 254.5 x 22.9 (mm)</td>
-        </tr>
+        {{#each product.product_detail}}
+          {{#if this}}
+            <tr>
+              <td class="header">{{#uppercase @key}}{{/uppercase}}</td>
+              <td>{{this}}</td>
+            </tr>
+          {{/if}}
+        {{/each}}
       </tbody>
     </table>
   </div>

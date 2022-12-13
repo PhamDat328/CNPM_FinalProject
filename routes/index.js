@@ -46,5 +46,11 @@ router.route("/transfer").get(userController.getTransferForm);
 router.route("/buyphonecard").get(userController.getBuyPhoneCardForm);
 router.route("/transaction").get(userController.getTransactionHistory);
 router.route("/profile").get(userController.getProfile);
+router.route("/cart").get(userController.getCart);
+router.route("/checkout").get(userController.getCheckOut);
+router
+  .route("/product-detail/:product_id")
+  .get(userController.getProductDetail);
+router.route("/addToCart/:product_id").get(userController.addToCart);
 
 module.exports = router;
