@@ -4,21 +4,25 @@ const jwt = require("jsonwebtoken");
 const Transaction = require("../models/History");
 const { ObjectId } = require("mongodb");
 const Product = require("../models/Products");
-const Order = require("../models/Orders")
+const Order = require("../models/Orders");
 const async = require("hbs/lib/async");
 const adminController = {
-
-
-  getHomepage: async (req,res) => {
+  getHomepage: async (req, res) => {
     const accessToken = req.cookies.accessToken;
     const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
     const user = await User.findOne({
       username: verifyToken.data.username,
     }).lean();
-    let userLength = (await User.find({})).length
-    let productLength = (await Product.find({})).length
-    let orderLength = (await Order.find({})).length 
-    return res.render("adminHomepage", {layout:"admin",user ,userLength,productLength,orderLength})
+    let userLength = (await User.find({})).length;
+    let productLength = (await Product.find({})).length;
+    let orderLength = (await Order.find({})).length;
+    return res.render("adminHomepage", {
+      layout: "admin",
+      user,
+      userLength,
+      productLength,
+      orderLength,
+    });
   },
 
   getProduct: async (req, res) => {
@@ -79,19 +83,18 @@ const adminController = {
   },
 
   getChooseToAdd: async (req, res) => {
-  
     // if (!req.session.isLogin) {
     //   return res.redirect("/login");
     // } else {
-      const accessToken = req.cookies.accessToken;
-      const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
-      let user = await User.findOne({ username: verifyToken.data.username });
-      return res.render("addOption", {
-        title: "GreenVN",
-        layout: "admin",
-        user: user.toObject(),
-        newProductButton: true,
-      });
+    const accessToken = req.cookies.accessToken;
+    const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+    let user = await User.findOne({ username: verifyToken.data.username });
+    return res.render("addOption", {
+      title: "GreenVN",
+      layout: "admin",
+      user: user.toObject(),
+      newProductButton: true,
+    });
     //}
   },
   getDisabled: async (req, res) => {
@@ -167,12 +170,14 @@ const adminController = {
     }
   },
 
-  getPendingTransaction: async (req, res) => {
+  getOrders: async (req, res) => {
     const accessToken = req.cookies.accessToken;
     const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
     const user = await User.findOne({
       username: verifyToken.data.username,
     }).lean();
+    const orders = await Order.find({}).lean();
+
     if (req.query.search == "true") {
       Transaction.find(generateSearchTransactionFilter(req))
         .sort({ transactionDate: 1 })
@@ -198,7 +203,75 @@ const adminController = {
             }
             return res.render("transactionApproval", {
               layout: "admin",
-              user,
+              users,
+              noData: noData,
+              pendingTransaction: result,
+            });
+          }
+        });
+    } else {
+      Transaction.find({ status: "Pending" })
+        .sort({ transactionDate: 1 })
+        .lean()
+        .exec((err, result) => {
+          let noData = {
+            status: true,
+            msg: "Không có giao dịch cần duyệt",
+          };
+          if (result.length >= 1) {
+            result.forEach((transaction) => {
+              transaction.transactionDate = transaction["transactionDate"]
+                .toLocaleString("en-GB")
+                .replace(",", " -");
+              transaction.transactionAmount = toMoney(
+                transaction.transactionAmount
+              );
+            });
+            noData.status = false;
+          }
+          return res.render("orders", {
+            layout: "admin",
+            orders,
+            // noData: noData,
+            pendingTransaction: result,
+          });
+        });
+    }
+  },
+  getPendingTransaction: async (req, res) => {
+    const accessToken = req.cookies.accessToken;
+    const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
+    const user = await User.findOne({
+      username: verifyToken.data.username,
+    }).lean();
+    const users = await User.find({}).lean();
+
+    if (req.query.search == "true") {
+      Transaction.find(generateSearchTransactionFilter(req))
+        .sort({ transactionDate: 1 })
+        .lean()
+        .exec((err, result) => {
+          if (err !== null) {
+            res.redirect("/admin/transactionApproval");
+          } else {
+            let noData = {
+              status: true,
+              msg: "Không có kết quả",
+            };
+            if (result.length >= 1) {
+              result.forEach((transaction) => {
+                transaction.transactionDate = transaction["transactionDate"]
+                  .toLocaleString("en-GB")
+                  .replace(",", " -");
+                transaction.transactionAmount = toMoney(
+                  transaction.transactionAmount
+                );
+              });
+              noData.status = false;
+            }
+            return res.render("transactionApproval", {
+              layout: "admin",
+              users,
               noData: noData,
               pendingTransaction: result,
             });
@@ -226,8 +299,8 @@ const adminController = {
           }
           return res.render("transactionApproval", {
             layout: "admin",
-            user,
-            noData: noData,
+            users,
+            // noData: noData,
             pendingTransaction: result,
           });
         });
@@ -337,39 +410,42 @@ const adminController = {
     }
   },
 
-  getAddLaptop:async(req,res) => {
+  getAddLaptop: async (req, res) => {
     const accessToken = req.cookies.accessToken;
     const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
     const user = await User.findOne({
       username: verifyToken.data.username,
     }).lean();
-    
-    return res.render("addLaptopForm", {layout:"admin",user,preCategoryID:"c00001"})
+
+    return res.render("addLaptopForm", {
+      layout: "admin",
+      user,
+      preCategoryID: "c00001",
+    });
   },
 
-  postAddLaptopForm: async(req,res) => {
+  postAddLaptopForm: async (req, res) => {
     const accessToken = req.cookies.accessToken;
     const verifyToken = jwt.verify(accessToken, process.env.JWT_ACCESS_KEY);
     const user = await User.findOne({
       username: verifyToken.data.username,
     }).lean();
 
-    let product_id ="p" + (await Product.find({})).length +1
+    let product_id = "p" + (await Product.find({})).length + 1;
 
     let product_detail = {
-
       cpu: req.body.CPU,
-      ram:req.body.RAM,
-      hardDisk:req.body.HardDisk,
-      VGA:req.body.VGA,
-      monitor:req.body.Monitor,
+      ram: req.body.RAM,
+      hardDisk: req.body.HardDisk,
+      VGA: req.body.VGA,
+      monitor: req.body.Monitor,
       port: req.body.Port,
       opticalDrive: req.body.OpticalDrive,
       audio: req.body.Audio,
-      keyboard:req.body.keyboard,
-      memoryReader:req.body.MemoryReader,
+      keyboard: req.body.keyboard,
+      memoryReader: req.body.MemoryReader,
       LAN: req.body.LAN,
-      WIFI:req.body.WIFI,
+      WIFI: req.body.WIFI,
       Bluetooth: req.body.Bluetooth,
       Webcam: req.body.Webcam,
       OS: req.body.OS,
@@ -377,12 +453,25 @@ const adminController = {
       weight: req.body.weight,
       color: req.body.color,
       size: req.body.size,
-
-    }
-    let product_images =[req.body.link1,req.body.link2,req.body.link3,req.body.link4,req.body.link5,req.body.link6]
-    Product.create({product_id: product_id, category_id:req.body.categoryID, product_name: req.body.productName, product_price: req.body.price, product_images,product_detail})
-    return res.redirect("/admin/products")
-  }
+    };
+    let product_images = [
+      req.body.link1,
+      req.body.link2,
+      req.body.link3,
+      req.body.link4,
+      req.body.link5,
+      req.body.link6,
+    ];
+    Product.create({
+      product_id: product_id,
+      category_id: req.body.categoryID,
+      product_name: req.body.productName,
+      product_price: req.body.price,
+      product_images,
+      product_detail,
+    });
+    return res.redirect("/admin/products");
+  },
 };
 
 module.exports = adminController;

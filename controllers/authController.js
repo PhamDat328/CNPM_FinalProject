@@ -131,6 +131,9 @@ async function makeLogin(
 
     req.session.isLogin = true;
     await account.updateOne({ lastLogin: currentDate, abnormalLogin: 0 });
+    if (account.admin) {
+      return res.redirect("/admin");
+    }
     return res.redirect("/");
   }
   // message.status = true;

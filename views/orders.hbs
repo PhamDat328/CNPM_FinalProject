@@ -1,0 +1,161 @@
+<div class="pending-container" id="pending">
+  <div class="pending-title">
+    <p class="text-title">
+      Danh sách yêu cầu rút tiền chờ được duyệt
+    </p>
+  </div>
+
+  <div class="toolSearchBar">
+    <form id="searchPendingData">
+      <div class="search-bar-item">
+        <div class="search-item-title">
+          <label for="byID">Tìm kiếm giao dịch</label>
+        </div>
+        <label
+          for="byID"
+          class="searchInput"
+          style="display:flex; align-items:center"
+        >
+          <i class="bi bi-search" style="margin-right: 4px;"></i>
+          <input
+            type="text"
+            id="byID"
+            name="ID"
+            placeholder="Nhập mã người dùng"
+            style="width: 100%;"
+          />
+        </label>
+      </div>
+      <div class="search-bar-item">
+        <div>
+          <label for="from" class="search-item-title">Từ</label>
+        </div>
+        <input type="date" id="from" name="from" class="searchInput" />
+      </div>
+      <div class="search-bar-item">
+        <div>
+          <label for="to" class="search-item-title">Đến</label>
+        </div>
+        <input type="date" id="to" name="to" class="searchInput" />
+      </div>
+      <div class="search-bar-item" style="width: 220px;">
+        <div>
+          <label for="amount" class="search-item-title">Số tiền:
+            <span id="amountDisplay" style="font-size: 14px;">Mọi số tiền</span></label>
+        </div>
+        <input
+          type="range"
+          list="amountmarks"
+          id="amount"
+          name="amount"
+          class="searchInput"
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          oninput="setAmountValue(this);"
+          style="padding: 0;"
+        />
+        <datalist id="amountmarks">
+          <option value="0"></option>
+          <option value="10"></option>
+          <option value="20"></option>
+          <option value="30"></option>
+          <option value="40"></option>
+          <option value="50"></option>
+          <option value="60"></option>
+          <option value="70"></option>
+          <option value="80"></option>
+          <option value="90"></option>
+          <option value="100"></option>
+        </datalist>
+      </div>
+      <div style="align-self: center;">
+        <button
+          class="btn btn-info"
+          type="button"
+          style="margin-right: 8px;"
+          onclick="searchPendingTransaction();"
+        >Search</button>
+        <button
+          class="btn btn-secondary"
+          type="reset"
+          value="0"
+          onclick="setAmountValue(this)"
+        >Reset</button>
+      </div>
+    </form>
+  </div>
+  <div
+    class="dataTable"
+    class="orders"
+    style="height: 800px; width: 95%; margin: 0 auto; color: #000"
+  >
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Tổng bill</th>
+          <th scope="col">Phương thức</th>
+          <th scope="col">Các sản phẩm</th>
+          <th scope="col">Địa chỉ nhận hàng</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each orders}}
+          <tr>
+            <th scope="row">{{order_id}}</th>
+            <td>{{orderDate}}</td>
+            <td>{{totalsPrice}}</td>
+            <td>{{paymentMethods}}</td>
+            <td>
+              <div class="order-items" style="width: 450px;">
+                {{#each items}}
+
+                  <div class="order-item">
+
+                    <img
+                      src="{{lookup product_images 0}}"
+                      alt=""
+                      style="width: 80px;"
+                    />
+
+                    <div class="order-item-info">
+                      <div class="order-item-name">
+                        <p>{{product_name}}
+                        </p>
+                      </div>
+                      <div class="order-item-quantity">Số lượng
+                        <b
+                          style="color: green; font-size:16px"
+                        >{{this.quantity}}</b></div>
+                      <div class="order-item-price"><b
+                        >{{this.totalPrice}}</b></div>
+                    </div>
+                  </div>
+                {{/each}}
+
+              </div>
+            </td>
+            <td>
+
+              Address:
+              {{shippingAddress.address}}
+
+            </td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+    <div class="tableNotification">
+      {{#if noData.status}}
+        <div style="color:#000; padding-top: 0.5rem;">{{noData.msg}}</div>
+      {{/if}}
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->

@@ -11,72 +11,105 @@
         <div class="search-item-title">
           <label for="byID">Tìm kiếm giao dịch</label>
         </div>
-        <label  for="byID" class="searchInput" style="display:flex; align-items:center">
+        <label
+          for="byID"
+          class="searchInput"
+          style="display:flex; align-items:center"
+        >
           <i class="bi bi-search" style="margin-right: 4px;"></i>
-          <input type="text" id="byID" name="ID" placeholder="Nhập mã người dùng" style="width: 100%;">
+          <input
+            type="text"
+            id="byID"
+            name="ID"
+            placeholder="Nhập mã người dùng"
+            style="width: 100%;"
+          />
         </label>
       </div>
-      <div class="search-bar-item">      
+      <div class="search-bar-item">
         <div>
           <label for="from" class="search-item-title">Từ</label>
         </div>
-        <input type="date" id="from" name="from" class="searchInput">    
+        <input type="date" id="from" name="from" class="searchInput" />
       </div>
       <div class="search-bar-item">
-          <div>
-            <label for="to" class="search-item-title">Đến</label>
-          </div>
-          <input type="date" id="to" name="to" class="searchInput">
+        <div>
+          <label for="to" class="search-item-title">Đến</label>
+        </div>
+        <input type="date" id="to" name="to" class="searchInput" />
       </div>
       <div class="search-bar-item" style="width: 220px;">
-          <div>
-            <label for="amount" class="search-item-title">Số tiền: <span id="amountDisplay" style="font-size: 14px;">Mọi số tiền</span></label>
-          </div>
-          <input type="range" list="amountmarks" id="amount" name="amount" class="searchInput" min="0" max="100" step="1" value="0" oninput="setAmountValue(this);" style="padding: 0;">
-          <datalist id="amountmarks">
-            <option value="0"></option>
-            <option value="10"></option>
-            <option value="20"></option>
-            <option value="30"></option>
-            <option value="40"></option>
-            <option value="50"></option>
-            <option value="60"></option>
-            <option value="70"></option>
-            <option value="80"></option>
-            <option value="90"></option>
-            <option value="100"></option>
-          </datalist>
-      </div>  
+        <div>
+          <label for="amount" class="search-item-title">Số tiền:
+            <span id="amountDisplay" style="font-size: 14px;">Mọi số tiền</span></label>
+        </div>
+        <input
+          type="range"
+          list="amountmarks"
+          id="amount"
+          name="amount"
+          class="searchInput"
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          oninput="setAmountValue(this);"
+          style="padding: 0;"
+        />
+        <datalist id="amountmarks">
+          <option value="0"></option>
+          <option value="10"></option>
+          <option value="20"></option>
+          <option value="30"></option>
+          <option value="40"></option>
+          <option value="50"></option>
+          <option value="60"></option>
+          <option value="70"></option>
+          <option value="80"></option>
+          <option value="90"></option>
+          <option value="100"></option>
+        </datalist>
+      </div>
       <div style="align-self: center;">
-        <button class="btn btn-info" type="button" style="margin-right: 8px;" onclick="searchPendingTransaction();">Search</button>
-        <button class="btn btn-secondary" type="reset" value="0" onclick="setAmountValue(this)">Reset</button>
+        <button
+          class="btn btn-info"
+          type="button"
+          style="margin-right: 8px;"
+          onclick="searchPendingTransaction();"
+        >Search</button>
+        <button
+          class="btn btn-secondary"
+          type="reset"
+          value="0"
+          onclick="setAmountValue(this)"
+        >Reset</button>
       </div>
     </form>
   </div>
   <div class="dataTable">
-      <table class="table" style="margin: 0;">
+    <table class="table" style="margin: 0;">
       <thead>
         <tr>
-          <th scope="col">Mã giao dịch</th>
-          <th scope="col">Mã người thực hiện</th>
-          <th scope="col">Ngày giao dịch</th>
-          <th scope="col">Số tiền</th>
-          <th scope="col">Trạng thái</th>
-          <th scope="col">Tùy chọn</th>
+          <th scope="col">ID</th>
+          <th scope="col">Full Name</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Email</th>
+          <th scope="col">Address</th>
+          {{! <th scope="col">Tùy chọn</th> }}
         </tr>
       </thead>
       <tbody id="transactionData">
-          {{#each pendingTransaction}}
+        {{#each users}}
           <tr>
-            <td>{{this._id}}</td>
-            <td>{{this.userID}}</td>
-            <td>{{this.transactionDate}}</td>
-            <td>{{this.transactionAmount}}</td>
-            <td>{{this.status}}</td>
-            <td>
+            <td>{{this.username}}</td>
+            <td>{{this.fullName}}</td>
+            <td>{{this.phoneNumber}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.address}}</td>
+            {{!-- <td>
               <button data-bs-toggle="modal" data-bs-target="#confirmModal-{{this.username}}" class="btn btn-success">Duyệt</button>
               <button data-bs-toggle="modal" data-bs-target="#cancelModal-{{this.username}}" class="btn btn-danger">Hủy</button>
-            </td>
+            </td> --}}
           </tr>
           {{! Confirm modal }}
           <div
@@ -148,9 +181,9 @@
               </div>
             </form>
           </div>
-          
-        {{/each}}  
-        
+
+        {{/each}}
+
       </tbody>
     </table>
     <div class="tableNotification">
@@ -159,7 +192,7 @@
       {{/if}}
     </div>
   </div>
-  
+
 </div>
 
 <!-- Modal -->
